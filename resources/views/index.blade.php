@@ -130,7 +130,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-globe fa fa-md"></i>
@@ -140,8 +140,8 @@
                             <p>Check the map to see the registered robotics-related entities.</p>
                         </div>
                     </div>
-                </div><!--/.col-md-4-->
-                <div class="col-md-4 col-sm-6">
+                </div><!--/.col-md-6-->
+                <div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-plus-square fa fa-md"></i>
@@ -151,8 +151,11 @@
                             <p>Register an institution through a quick form.</p>
                         </div>
                     </div>
-                </div><!--/.col-md-4-->
-                <div class="col-md-4 col-sm-6">
+                </div><!--/.col-md-6-->
+            </div><!--/.row-->
+            <div class="gap"></div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-calendar fa fa-md"></i>
@@ -162,43 +165,18 @@
                             <p>See upcoming robotics-related events & sign up for them.</p>
                         </div>
                     </div>
-                </div><!--/.col-md-4-->
-            </div><!--/.row-->
-            <div class="gap"></div>
-            <div class="row">
-                <div class="col-md-4 col-sm-6">
+                </div><!--/.col-md-6-->
+                <div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-star fa fa-md"></i>
                         </div>
                         <div class="media-body fade-up">
-                            <h3 class="media-heading">Star Gazing</h3>
-                            <p>Yet joy exquisite put sometimes enjoyment perpetual now. Behind lovers eat having length horses vanity say had its</p>
+                            <h3 class="media-heading">Feedback</h3>
+                            <p>Offer feedbacks</p>
                         </div>
                     </div>
-                </div><!--/.col-md-4-->
-                <div class="col-md-4 col-sm-6">
-                    <div class="service-block">
-                        <div class="pull-left bounce-in">
-                            <i class="fa fa-cogs fa fa-md"></i>
-                        </div>
-                        <div class="media-body fade-up">
-                            <h3 class="media-heading">Software Support</h3>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae.</p>
-                        </div>
-                    </div>
-                </div><!--/.col-md-4-->
-                <div class="col-md-4 col-sm-6">
-                    <div class="service-block">
-                        <div class="pull-left bounce-in">
-                            <i class="fa fa-google-plus fa fa-md"></i>
-                        </div>
-                        <div class="media-body fade-up">
-                            <h3 class="media-heading">SEO Services</h3>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae.</p>
-                        </div>
-                    </div>
-                </div><!--/.col-md-4-->
+                </div><!--/.col-md-6-->
             </div><!--/.row-->
         </div>
         <div class="gap"></div>
@@ -296,11 +274,23 @@
                                 <blockquote>
                                     <div class="row">
                                         <div class="col-sm-3 text-center">
-                                            <img class="img-responsive" src="images/team/team01.jpg" style="width: 100px;height:100px;">
+                                            <img class="img-responsive" src="images/quote/isaac-asimov.jpg" style="width: 100px;height:100px;">
                                         </div>
                                         <div class="col-sm-9">
-                                            <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit!</p>
-                                            <small>Someone famous</small>
+                                            <p>The Three Laws of Robotics:</p>
+                                            <div>
+                                                1: A robot may not injure a human being or, through inaction, allow a human being to come to harm;
+                                            </div>
+                                            <div>
+                                                2: A robot must obey the orders given it by human beings except where such orders would conflict with the First Law;
+                                            </div>
+                                            <div>
+                                                3: A robot must protect its own existence as long as such protection does not conflict with the First or Second Law;
+                                            </div>
+                                            <div>
+                                                The Zeroth Law: A robot may not harm humanity, or, by inaction, allow humanity to come to harm.
+                                            </div>
+                                            <small>Isaac Asimov, I, Robot</small>
                                         </div>
                                     </div>
                                 </blockquote>
