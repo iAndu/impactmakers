@@ -12,9 +12,7 @@
 */
 Auth::routes();
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/', ['as'=>'index', 'uses'=>'HomeController@index']);
 
 
 Route::group(['middleware' => ['auth']], function () {
@@ -51,6 +49,6 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/map', ['as'=>'map', 'uses'=>'MapController@index']);
