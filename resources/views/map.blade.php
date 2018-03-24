@@ -29,6 +29,12 @@
           mapTypeId: 'roadmap'
         });
 
+        google.maps.event.addListener(map, "click", function(event) {
+            open_infowindow.close();
+        });
+
+        var open_infowindow;
+
         var iconBase = "/icons/";
         /*var icons = {
           university: {
@@ -57,8 +63,13 @@
               let infowindow = new google.maps.InfoWindow({
                 content: contentString
               });
-              
+
+              if(open_infowindow)
+                open_infowindow.close();
+
               infowindow.open(map, this);
+
+              open_infowindow = infowindow;
             });
           
         @endforeach
