@@ -22,6 +22,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/test', function () {
         return view('admin.main');
     });
+
+    Route::get('/institution-types', 'InstitutionTypeController@index')->name('institution-types-index');
+    Route::get('/institution-types/create', 'InstitutionTypeController@create')
+    ->name('institution-types-create');
+    Route::post('/institution-types/store', 'InstitutionTypeController@store')
+    ->name('institution-types-store');
 });
 
 

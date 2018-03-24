@@ -36,13 +36,31 @@
           },
         };*/
 
+        //let marker;
+
         //Create markers
         @foreach($institutions as $institution)
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
-            icon: iconBase + '{{ $institution->type->badge }}',
+            
+            icon: iconBase + '{{ $institution->type->icon->path }}',
             map: map
           });
+
+            console.log({{ $institution->lat }});
+            console.log({{ $institution->lng }});
+
+            google.maps.event.addListener(marker, 'click', function() {
+                    //var aux = Object.assign({}, marker);  
+              let contentString = '<h1>' + '{{ $institution->name }}' + '</h1>';
+
+              let infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+              
+              infowindow.open(map, this);
+            });
+          
         @endforeach
       }
     </script>
