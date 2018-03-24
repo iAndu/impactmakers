@@ -7,7 +7,7 @@ use App\Institution;
 
 class InstitutionType extends Model
 {
-    protected $fillable = ['name', 'badge'];
+    protected $fillable = ['name', 'icon_id'];
 
     public function institutions()
     {

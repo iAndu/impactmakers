@@ -10,12 +10,12 @@
   <!-- /.box-header -->
   <div class="box-body">
     
-    <form method="post" action="/institution-types/store" enctype="multipart/form-data">
+    <form method="post" action="/institution-types/upload-icon" enctype="multipart/form-data">
       @csrf
 
 
       <div class="form-group col-md-12">
-        <label>Institution type</label>
+        <label>Institution type name</label>
         <input id="institution_type" class="form-control" name="institution_type" type="text"
         value="{{old('institution_type', '')}}">
       </div>
@@ -34,11 +34,24 @@
         </div>
       </div>
 
-      <div class="col-md-12 row">
-        <div class="form-group col-md-6">
-          <label>Or upload your own marker image</label>
-          <p>TODO: upload field here</p>
-        </div>
+      <input type="hidden" name="has_upload" value="true">
+
+      <div class="col-md-12">
+        <p>Or upload your own...</p>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="icon">Upload</label>
+        <input
+        type="file"
+        id="icon"
+        name="icon"
+        value="{{ old('icon', "") }}" class="form-control">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Marker name</label>
+        <input id="marker_name" class="form-control" name="marker_name" type="text"
+        value="{{old('marker_name', '')}}">
       </div>
 
       <div id="saveActions" class="form-group col-md-12">
@@ -58,3 +71,82 @@
 </div>
 <!-- /.box -->
 @endsection
+
+@push('scrips')
+ <script>
+        
+        $(icon).on("click", "#save_icon_btn", function () {
+
+            // function saveIcon() {
+            $("personal-record-form").submit(function(event) {
+                event.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+                alert(formData);
+                alert(formData[0]);
+
+                // var icon_path = $(this).data('path');
+                var title = $(this).data('title');
+                var type_id = $(this).data('type_id');
+                var description = $(this).data('description');
+                var icon = $(this).data('icon');
+
+                alert(title);
+
+                $.ajax({
+                     url: 'institution-types/uploadIcon',
+                        type: 'POST',
+                        data: {
+                            title: title,
+                            icon: icon,
+                            // icon_path: icon_path
+                        },
+                    success: function (data) {
+                        alert(data)
+                    },
+                    error: function(file, response) {
+                        console.log('error');
+                        console.log(file);
+                        console.log(response);
+                    },
+
+                    cache: false,
+                    processData: false
+                });
+
+                return false;
+                });
+        });
+
+        $(icon).on("click", "#delete_icon_btn", function () {
+
+               $("personal-record-form").submit(function(event) {
+                event.preventDefault();
+
+
+                    var icon = $(this).data('icon');
+
+                      $.ajax({
+                         url: 'institution-types/deleteIcon',
+                            type: 'POST',
+                            data: {
+                                title: title,
+                                icon_path: icon,
+                                icon_id: icon_id,
+                                // icon_path: icon_path
+                            },
+                        success: function (data) {
+                            alert(data)
+                        },
+                           error: function(file, response) {
+                            console.log('error');
+                            console.log(file);
+                            console.log(response);
+                        },
+                    });
+            }
+            }
+        });
+        });
+    </script>
+@endpush

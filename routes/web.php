@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth']], function () {
     ->name('institution-types-create');
     Route::post('/institution-types/store', 'InstitutionTypeController@store')
     ->name('institution-types-store');
+
+    Route::post('/institution-types/upload-icon', 'InstitutionTypeController@ajaxUploadIcon')
+    ->name('institution-types-uploadDocument');
 });
 
 
