@@ -58,7 +58,7 @@ class InstitutionTypeController extends Controller
 
             $icon = [
                 'name'  => $request->marker_name,
-                'path'  => config('paths.institution_type_icons') . $filename
+                'path'  => 'storage/' . config('paths.institution_type_icons') . $filename
             ];
 
             $newIcon = Icon::create($icon);
@@ -87,6 +87,7 @@ class InstitutionTypeController extends Controller
     public function delete($id) {
         $institutionType = InstitutionType::find($id);
         $institutionType->delete();
+
         return redirect('/institution-types');
     }
 }
