@@ -102,11 +102,16 @@
 
             google.maps.event.addListener(marker, 'mouseover', function() {
                     //var aux = Object.assign({}, marker);  
-              let contentString = '<h1>' + '{{ $institution->name }}' + '</h1>';
+              
+              let contentString = '<div class="row"><div class="col-xs-3"> <img src=' + '{{ $institution->photos->first()->path }}' + ' height="60" width="60"> </div>';
 
-              if('{{ $institution->address }}' != '')
-                contentString += '<p> {{ $institution->address }}';
-              if('{{ $institution->email }}' != '')
+              contentString += '<div class="col-xs-9"> <b>' + '{{ $institution->name }}' + '</b>';
+
+              short_des = '{{ $institution->short_description }}';
+              
+              short_des += new Array(30 - short_des.length).join(' ');
+              contentString += '<p>' + short_des;
+              /*if('{{ $institution->email }}' != '')
                 contentString += '<p> {{ $institution->email }}';
               if('{{ $institution->fb_page }}' != '')
                 contentString += '<p> {{ $institution->fb_page }}';
@@ -119,7 +124,9 @@
               if('{{ $institution->ratio }}' != '')
                 contentString += '<p> {{ $institution->ratio }}';
               if('{{ $institution->website }}' != '')
-                contentString += '<p> {{ $institution->website }}';
+                contentString += '<p> {{ $institution->website }}';*/
+
+                contentString += '</div></div>';
 
               let infowindow = new google.maps.InfoWindow({
                 content: contentString
