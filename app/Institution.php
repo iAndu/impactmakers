@@ -9,8 +9,8 @@ use App\InstitutionType;
 class Institution extends Model
 {
     use SoftDeletes;
-    
-    protected $guarded = ['id', 'deleted_at'];
+
+    protected $guarded = ['id', 'deleted_at', 'status'];
 
     public function type()
     {
