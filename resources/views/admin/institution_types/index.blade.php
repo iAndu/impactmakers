@@ -41,7 +41,7 @@
 	            <tr>
 	            	<td>{{ $institutionType->name }}</td>
 	            	<td class="max-100px"><img src="{{ "/storage/" . $institutionType->icon->path }}"> &nbsp;{{ $institutionType->icon->name }}</td>
-                <td><a href="" class="btn btn-danger"><span class="fa fa-close"> </span> Delete</a></td>
+                <td><a href="/institution-types/{{$institutionType->id}}/delete" class="btn btn-danger"><span class="fa fa-close"> </span> Delete</a></td>
 	            </tr>
            	@endforeach
             </tfoot>

@@ -85,6 +85,8 @@ class InstitutionTypeController extends Controller
     }
 
     public function delete($id) {
-        
+        $institutionType = InstitutionType::find($id);
+        $institutionType->delete();
+        return redirect('/institution-types');
     }
 }

@@ -61,6 +61,8 @@ Route::group(['middleware' => ['auth']], function () {
     ->name('institution-types-create');
     Route::post('/institution-types/store', 'InstitutionTypeController@store')
     ->name('institution-types-store');
+    Route::get('/institution-types/{id}/delete', 'InstitutionTypeController@delete');
+
 });
 
 
