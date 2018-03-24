@@ -16,6 +16,6 @@ use Faker\Generator as Faker;
 $factory->define(App\InstitutionType::class, function (Faker $faker) {
     return [
         'name' => $faker->sentence(3, true), 
-        'icon_id' => 1,
+        'icon_id' => (int)DB::table('icons')->min('id'),
     ];
 });
