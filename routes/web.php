@@ -13,8 +13,9 @@
 Auth::routes();
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('index');
+
 
 Route::group(['middleware' => ['auth']], function () {
     
@@ -32,7 +33,14 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'institutions.update'
     ]);
 
+    Route::get('/institution-types', 'InstitutionTypeController@index')->name('institution-types-index');
+    Route::get('/institution-types/create', 'InstitutionTypeController@create')
+    ->name('institution-types-create');
+    Route::post('/institution-types/store', 'InstitutionTypeController@store')
+    ->name('institution-types-store');
 });
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/map', ['as'=>'map', 'uses'=>'MapController@index']);

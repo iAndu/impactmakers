@@ -13,4 +13,9 @@ class InstitutionType extends Model
     {
         return $this->hasMany(Institution::class);
     }
+    
+    public function icon()
+    {
+        return $this->belongsTo('App\Icon');
+    }
 }
