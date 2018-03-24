@@ -3,6 +3,12 @@
 @push('css')
 <!-- DataTables -->
 <link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+<style type="text/css">
+  .max-100px img{
+    max-width: 50px;
+  }
+</style>
 @endpush
 
 @section('content')	
@@ -34,7 +40,7 @@
             @foreach($institutionTypes as $institutionType)
 	            <tr>
 	            	<td>{{ $institutionType->name }}</td>
-	            	<td><img src="{{ "/storage/" . $institutionType->icon->path }}">{{ $institutionType->icon->name }}</td>
+	            	<td class="max-100px"><img src="{{ "/storage/" . $institutionType->icon->path }}"> &nbsp;{{ $institutionType->icon->name }}</td>
                 <td><a href="" class="btn btn-danger"><span class="fa fa-close"> </span> Delete</a></td>
 	            </tr>
            	@endforeach

@@ -70,7 +70,7 @@ class InstitutionTypeController extends Controller
 
             InstitutionType::create($institutionType);
 
-            return back();
+            return redirect('/institution-types');
         }
 
         $institutionType = [
@@ -80,7 +80,8 @@ class InstitutionTypeController extends Controller
 
         InstitutionType::create($institutionType);
 
-        return back();
+        return redirect('/institution-types');
+        
     }
 
 }
