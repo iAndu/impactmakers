@@ -91,7 +91,7 @@
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             
-            icon: '{{ $institution->type->icon->path }}',
+            icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
             map: map
           });
 
