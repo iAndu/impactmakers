@@ -421,9 +421,14 @@
                         <input type="text" name="ig_page" placeholder="Optional. Instagram page" />
                         <input type="text" name="males" placeholder="Optional. Number of males" />
                         <input type="text" name="females" placeholder="Optional. Number of females" />
-                        <input class="btn btn-outlined btn-primary" type="submit" name="submit" value="Submit" />
                     </div><!-- col -->
                 </div><!-- row -->
+
+                <div class="row">
+                    <div class="col-md-12 col-lg-offset-3 col-lg-6">
+                        <input class="btn btn-outlined btn-primary" type="submit" name="submit" value="Submit" />
+                    </div>
+                </div>                        
             </form>            
             <div class="gap"></div>
         </div>
