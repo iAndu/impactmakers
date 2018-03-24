@@ -34,6 +34,10 @@
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
+
+        .item-inner img {
+            max-height: 150px;
+        }
       #mapwrapper {
           height: 700px;
       }
@@ -834,7 +838,16 @@
     $('#store-institution').on('submit', function (e) {
         e.preventDefault();
 
-        
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: "{{ route('institutions.store') }}",
+            method: 'post',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData
+        });
     })
 </script>
 
