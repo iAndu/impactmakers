@@ -16,6 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/test', function () {
@@ -25,3 +26,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/map', ['as'=>'map', 'uses'=>'MapController@index']);
