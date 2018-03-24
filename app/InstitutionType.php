@@ -21,7 +21,7 @@ class InstitutionType extends Model
 
     public function institutions()
     {
-        return $this->hasMany(Institution::class);
+        return $this->hasMany('App\Institution', 'type_id');
     }
     
     public function icon()

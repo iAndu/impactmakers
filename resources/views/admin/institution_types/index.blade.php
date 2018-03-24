@@ -39,9 +39,13 @@
             <tbody>
             @foreach($institutionTypes as $institutionType)
 	            <tr>
-	            	<td>{{ $institutionType->name }}</td>
+                <td>{{ $institutionType->name }}</td>
 	            	<td class="max-100px"><img src="{{ $institutionType->icon->path }}"> &nbsp;{{ $institutionType->icon->name }}</td>
-                <td><a href="/institution-types/{{$institutionType->id}}/delete" class="btn btn-danger"><span class="fa fa-close"> </span> Delete</a></td>
+                <td>
+                  @if($institutionType->institutions->count() == 0)
+                    <a href="/institution-types/{{$institutionType->id}}/delete" class="btn btn-danger"><span class="fa fa-close"> </span> Delete</a>
+                  @endif
+                </td>
 	            </tr>
            	@endforeach
             </tfoot>
