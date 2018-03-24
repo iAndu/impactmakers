@@ -28,9 +28,19 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'institutions.index'
     ]);
 
-    Route::post('/institutions/{institution}', [
+    Route::put('/institutions/{institution}', [
         'uses' => 'InstitutionsController@update',
         'as' => 'institutions.update'
+    ]);
+
+    Route::post('/institutions', [
+        'uses' => 'InstitutionsController@store',
+        'as' => 'instututions.store'
+    ]);
+
+    Route::delete('/instiutions/{institution}', [
+        'uses' => 'InstitutionsController@delete',
+        'as' => 'institutions.delete'
     ]);
 
     Route::get('/institution-types', 'InstitutionTypeController@index')->name('institution-types-index');
