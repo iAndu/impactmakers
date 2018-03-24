@@ -14,12 +14,32 @@ Auth::routes();
 
 Route::get('/', ['as'=>'index', 'uses'=>'HomeController@index']);
 
+Route::post('/feedbacks', [
+    'uses' => 'FeedbacksController@store',
+    'as' => 'feedbacks.store'
+]);
+
+Route::get('/feedbacks', [
+    'uses' => 'FeedbacksController@index',
+    'as' => 'feedbacks.index'
+]);
+
+Route::get('/getInstitutions', [
+    'uses' => 'InstitutionsController@getInstitutions',
+    'as' => 'institutions.getInstitutions'
+]);
+
+Route::post('/institutions/rate/{institution}', [
+    'uses' => 'InstitutionsController@rate',
+    'as' => 'institutions.rate'
+]);
+
+Route::post('/institutions', [
+    'uses' => 'InstitutionsController@store',
+    'as' => 'instututions.store'
+]);
 
 Route::group(['middleware' => ['auth']], function () {
-    
-    Route::get('/test', function () {
-        return view('admin.main');
-    });
 
     Route::get('/institutions', [
         'uses' => 'InstitutionsController@index',
@@ -29,11 +49,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/institutions/{institution}', [
         'uses' => 'InstitutionsController@update',
         'as' => 'institutions.update'
-    ]);
-
-    Route::post('/institutions', [
-        'uses' => 'InstitutionsController@store',
-        'as' => 'instututions.store'
     ]);
 
     Route::delete('/instiutions/{institution}', [

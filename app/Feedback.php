@@ -28,4 +28,14 @@ class Feedback extends Model
     {
         return $this->hasMany(FeedbackRating::class);
     }
+
+    public function positiveRatings()
+    {
+        return $this->hasMany(FeedbackRating::class)->where('rating', 1);
+    }
+
+    public function negativeRatings()
+    {
+        return $this->hasMany(FeedbackRating::class)->where('rating', -1);
+    }
 }
