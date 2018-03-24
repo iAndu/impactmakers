@@ -36,7 +36,7 @@ Route::post('/institutions/rate/{institution}', [
 
 Route::post('/institutions', [
     'uses' => 'InstitutionsController@store',
-    'as' => 'instututions.store'
+    'as' => 'institutions.store'
 ]);
 
 Route::group(['middleware' => ['auth']], function () {
