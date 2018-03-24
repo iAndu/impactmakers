@@ -1,5 +1,23 @@
 @extends('admin.main')
 
+@push('css')
+<!-- DataTables -->
+<link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+<style type="text/css">
+
+  .select2-container .select2-selection--single {
+    height: 54px;
+  }
+  .max-50px{
+    max-width: 50px;
+    max-height: 50px;
+  }
+</style>
+@endpush
+
 @section('content')	
 
 <!-- Default box -->
@@ -13,8 +31,7 @@
     <form method="post" action="/institution-types/store" enctype="multipart/form-data">
       @csrf
 
-
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-6">
         <label>Institution type name</label>
         <input id="institution_type" class="form-control" name="institution_type" type="text"
         value="{{old('institution_type', '')}}">
@@ -27,31 +44,37 @@
             data-default-option="{{ old('icon_id', '')}}">
                 <option value="">-</option>
                 @foreach ($icons as $icon)
-                    <option value="{{ $icon->id }}"><span><img src="" alt="image here"></span>{{ $icon->name }}
+                    <option value="{{ $icon->id }}"
+                   data-image="{{ "/storage/" . $icon->path }}">  
+                    {{ $icon->name }}
                     </option>
                 @endforeach
             </select>
         </div>
       </div>
 
-      <input type="hidden" name="has_upload" value="true">
+      <input type="hidden" name="has_upload" id="has_upload" value="false">
 
       <div class="col-md-12">
-        <p>Or upload your own...</p>
+        <p>
+        <button  id="upload-toggle" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#upload" aria-expanded="false" aria-controls="collapseExample">Or upload your own...</button></p>
+
       </div>
 
-      <div class="form-group col-md-6">
-        <label for="icon">Upload</label>
-        <input
-        type="file"
-        id="icon"
-        name="icon"
-        value="{{ old('icon', "") }}" class="form-control">
-      </div>
-      <div class="form-group col-md-6">
-        <label>Marker name</label>
-        <input id="marker_name" class="form-control" name="marker_name" type="text"
-        value="{{old('marker_name', '')}}">
+      <div id="upload" class="collapse">
+        <div class="form-group col-md-6">
+          <label for="icon">Upload</label>
+          <input
+          type="file"
+          id="icon"
+          name="icon"
+          value="{{ old('icon', "") }}" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+          <label>Marker name</label>
+          <input id="marker_name" class="form-control" name="marker_name" type="text"
+          value="{{old('marker_name', '')}}">
+        </div>
       </div>
 
       <div id="saveActions" class="form-group col-md-12">
@@ -72,81 +95,50 @@
 <!-- /.box -->
 @endsection
 
-@push('scrips')
+@push('scripts')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
  <script>
+    $(function () {
+
+      $("#upload-toggle").on("click", function(){
+        var value =  $("#has_upload").val();
+
+        if(value == "true") {
+          $("#has_upload").val("false");  
+          $("#icon_id").prop('disabled', false);
+          $("#upload-toggle").removeClass("btn-danger");
+        } else {
+          $("#has_upload").val("true");  
+          $("#upload-toggle").addClass("btn-danger");
+          $("#icon_id").prop('disabled', 'disabled');
+        }
         
-        $(icon).on("click", "#save_icon_btn", function () {
-
-            // function saveIcon() {
-            $("personal-record-form").submit(function(event) {
-                event.preventDefault();
-
-                var formData = new FormData($(this)[0]);
-                alert(formData);
-                alert(formData[0]);
-
-                // var icon_path = $(this).data('path');
-                var title = $(this).data('title');
-                var type_id = $(this).data('type_id');
-                var description = $(this).data('description');
-                var icon = $(this).data('icon');
-
-                alert(title);
-
-                $.ajax({
-                     url: 'institution-types/uploadIcon',
-                        type: 'POST',
-                        data: {
-                            title: title,
-                            icon: icon,
-                            // icon_path: icon_path
-                        },
-                    success: function (data) {
-                        alert(data)
-                    },
-                    error: function(file, response) {
-                        console.log('error');
-                        console.log(file);
-                        console.log(response);
-                    },
-
-                    cache: false,
-                    processData: false
-                });
-
-                return false;
-                });
-        });
-
-        $(icon).on("click", "#delete_icon_btn", function () {
-
-               $("personal-record-form").submit(function(event) {
-                event.preventDefault();
+      });
+    });
 
 
-                    var icon = $(this).data('icon');
+    $("#icon_id").select2({
+        templateResult: addUserPic,
+        templateSelection: addUserPic
+    });
+      
+    function addUserPic (opt) {
+      if (!opt.id) {
+        return opt.text;
+      }               
+      var optimage = $(opt.element).data('image'); 
+      if(!optimage){
+        return opt.text;
+      } else {
+        var $opt = $(
+        '<span class="userName"><img src="' + optimage + '" class="userPic max-50px" /> ' + $(opt.element).text() + '</span>'
+        );
+        return $opt;
+      }
+    };
 
-                      $.ajax({
-                         url: 'institution-types/deleteIcon',
-                            type: 'POST',
-                            data: {
-                                title: title,
-                                icon_path: icon,
-                                icon_id: icon_id,
-                                // icon_path: icon_path
-                            },
-                        success: function (data) {
-                            alert(data)
-                        },
-                           error: function(file, response) {
-                            console.log('error');
-                            console.log(file);
-                            console.log(response);
-                        },
-                    });
-            }
-            }
-        });
-        });
+
     </script>
 @endpush

@@ -17,7 +17,7 @@ class CreatePhotosTable extends Migration
             $table->increments('id');
             $table->integer('institution_id')->unsigned();
             $table->foreign('institution_id')->references('id')->on('institutions')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->string('path');
         });

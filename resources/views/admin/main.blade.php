@@ -80,19 +80,14 @@
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="active">
-          <a href="../widgets.html">
+        <li>
+          <a href="/institutions">
             <i class="fa fa-building"></i> <span>Institutions</span>
           </a>
         </li>
         <li>
-          <a href="../widgets.html">
-            <i class="fa fa-user"></i> <span>Institution Types</span>
-          </a>
-        </li>
-        <li>
-          <a href="../widgets.html">
-            <i class="fa fa-user"></i> <span>Users</span>
+          <a href="/institution-types">
+            <i class="fa fa-graduation-cap"></i> <span>Institution Types</span>
           </a>
         </li>
       </ul>
@@ -139,6 +134,17 @@
             }
         });
     });
+  var url = window.location;
+
+  // for sidebar menu entirely but not cover treeview
+  $('ul.sidebar-menu a').filter(function() {
+    return this.href == url;
+  }).parent().addClass('active');
+
+  // for treeview
+  $('ul.treeview-menu a').filter(function() {
+    return this.href == url;
+  }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
 </script>
 
 @stack('scripts')

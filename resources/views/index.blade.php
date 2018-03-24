@@ -111,21 +111,12 @@
 
         var open_infowindow;
 
-        var iconBase = "/icons/";
-        /*var icons = {
-          university: {
-            icon: iconBase + 'university.png'
-          },
-        };*/
-
-        //let marker;
-
         //Create markers
         @foreach($institutions as $institution)
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             
-            icon: iconBase + '{{ $institution->type->icon->path }}',
+            icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
             map: map
           });
 
