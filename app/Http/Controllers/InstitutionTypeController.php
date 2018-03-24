@@ -58,7 +58,7 @@ class InstitutionTypeController extends Controller
 
             $icon = [
                 'name'  => $request->marker_name,
-                'path'  => 'storage/' . config('paths.institution_type_icons') . $filename
+                'path'  => '/storage/' . config('paths.institution_type_icons') . $filename
             ];
 
             $newIcon = Icon::create($icon);
