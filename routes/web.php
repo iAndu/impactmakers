@@ -21,6 +21,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/test', function () {
         return view('admin.main');
     });
+
+    Route::get('/institutions', [
+        'uses' => 'InstitutionsController@index',
+        'as' => 'institutions.index'
+    ]);
+
+    Route::post('/institutions/{institution}', [
+        'uses' => 'InstitutionsController@update',
+        'as' => 'institutions.update'
+    ]);
+
 });
 
 
