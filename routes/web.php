@@ -23,9 +23,8 @@ Route::group(['middleware' => ['auth']], function () {
         return view('admin.main');
     });
 
-    Route::get('/institution-types', function () {
-        return view('admin.institution_types');
-    });
+    Route::get('/institution-types', 'InstitutionTypeController@index');
+    Route::get('/institution-types/create', 'InstitutionTypeController@create');
 });
 
 

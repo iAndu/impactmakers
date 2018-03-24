@@ -14,24 +14,34 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
+          <div class="row form-group">
+            <div class="col-md-12">
+              <a href="/institution-types/create" class="btn btn-primary">
+                <span><i class="fa fa-plus"></i></span>
+                Add new
+              </a>
+            </div>
+          </div>
           <table id="example1" class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th>Rendering engine</th>
-              <th>Browser</th>
+              <th>Institution type</th>
+              <th>Badge</th>
               <th>Platform(s)</th>
               <th>Engine version</th>
               <th>CSS grade</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Webkit</td>
-              <td>Safari 1.3</td>
-              <td>OSX.3</td>
-              <td>312.8</td>
-              <td>A</td>
-            </tr>
+            @foreach($institutionTypes as $institutionType)
+	            <tr>
+	            	<td>{{ $institutionType.name }}</td>
+	            	<td>{{ $institutionType.badge }}</td>
+	              <td>OSX.3</td>
+	              <td>312.8</td>
+	              <td>A</td>
+	            </tr>
+           	@endforeach
             <tr>
               <td>Webkit</td>
               <td>Safari 2.0</td>
