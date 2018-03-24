@@ -15,7 +15,8 @@
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "~6.0",
-        "symfony/thanks": "^1.0"
+        "symfony/thanks": "^1.0",
+        "zizaco/entrust": "5.2.x-dev"        
     },
     "autoload": {
         "classmap": [
