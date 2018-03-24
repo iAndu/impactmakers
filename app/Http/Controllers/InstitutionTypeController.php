@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Requests\InstitutionTypeRequest;
+use App\Http\Requests\InstitutionTypeRequest as Request;
 
 use DB;
 use App\InstitutionType;
+use App\Icon;
 
 class InstitutionTypeController extends Controller
 {
@@ -27,7 +28,9 @@ class InstitutionTypeController extends Controller
      */
     public function create()
     {
-        return view('admin.institution_types.create');        
+        $icons = Icon::all();
+
+        return view('admin.institution_types.create',  compact('icons'));       
     }
 
     /**
@@ -36,7 +39,7 @@ class InstitutionTypeController extends Controller
      */
     public function store(Request $request)
     {
-        dd($requet);
+        dd($request->all());
         return redirect('institution-types-index');
     }
 

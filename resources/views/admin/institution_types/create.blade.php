@@ -26,8 +26,8 @@
             <select id="icon_id" class="form-control" name="icon_id" 
             data-default-option="{{ old('icon_id', '')}}">
                 <option value="">-</option>
-                @foreach ('App\Icon'::all() as $icon)
-                    <option value="{{ $icon->id }}"><span><img src="" alt="image here"></span>{{ $icon->name}}
+                @foreach ($icons as $icon)
+                    <option value="{{ $icon->id }}"><span><img src="" alt="image here"></span>{{ $icon->name }}
                     </option>
                 @endforeach
             </select>
