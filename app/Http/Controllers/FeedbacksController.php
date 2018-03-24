@@ -18,6 +18,8 @@ class FeedbacksController extends Controller
                 $feedback->negativeRatings()->count();
         }
 
+        $feedbacks->orderByDesc('rating');
+
         return response()->json([
             'feedbacks' => $feedbacks
         ]);
