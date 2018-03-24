@@ -21,6 +21,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/test', function () {
         return view('admin.main');
     });
+
+    Route::get('/institution-types', function () {
+        return view('admin.institution_types');
+    });
 });
 
 
