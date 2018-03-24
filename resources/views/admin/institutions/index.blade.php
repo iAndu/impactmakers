@@ -16,6 +16,7 @@
                 <th>Description</th>
                 <th>Institution Type</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -29,16 +30,22 @@
                         <input class="update-status" type="checkbox" {{ $institution->status ? 'checked' : '' }}/>
                         <span>{{ $institution->status ? 'Approved' : 'Pending' }}</span>
                     </td>
+                    <td class="text-center">
+                        <a class="delete" href="{{ route('institutions.delete', $institution->id) }}">
+                            <i class="fa fa-trash" style="color: #000; font-size: 18px;"></i>
+                        </a>
+                    </td>
                 </tr>
             @endforeach
             </tbody>
             <tfoot>
             <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Description</th>
-                    <th>Institution Type</th>
-                    <th>Status</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Description</th>
+                <th>Institution Type</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
             </tfoot>
             </table>
@@ -61,7 +68,7 @@
 
                 $.ajax({
                     url: route.replace('id', id),
-                    method: 'post',
+                    method: 'put',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -76,7 +83,30 @@
                         $this.attr('checked', !$this.is(':checked'));
                         alert('Something went wrong. Update failed.');
                     }
-                })
+                });
+            });
+
+            $('#institutions').on('click', 'a.delete', function (e) {
+                e.preventDefault();
+                let $this = $(this);
+
+                let result = confirm("Do you want to delete this institution?");
+
+                if (result) {
+                    $.ajax({
+                        url: $this.attr('href'),
+                        method: 'delete',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (resp) {
+                            $this.closest('tr').remove();
+                        },
+                        error: function (err) {
+                            alert('Something went wrong. Deletion failed.');
+                        }
+                    });
+                }
             });
         })
     </script>

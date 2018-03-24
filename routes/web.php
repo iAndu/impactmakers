@@ -12,9 +12,7 @@
 */
 Auth::routes();
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/', ['as'=>'index', 'uses'=>'HomeController@index']);
 
 
 Route::group(['middleware' => ['auth']], function () {
@@ -28,9 +26,19 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'institutions.index'
     ]);
 
-    Route::post('/institutions/{institution}', [
+    Route::put('/institutions/{institution}', [
         'uses' => 'InstitutionsController@update',
         'as' => 'institutions.update'
+    ]);
+
+    Route::post('/institutions', [
+        'uses' => 'InstitutionsController@store',
+        'as' => 'instututions.store'
+    ]);
+
+    Route::delete('/instiutions/{institution}', [
+        'uses' => 'InstitutionsController@delete',
+        'as' => 'institutions.delete'
     ]);
 
     Route::get('/institution-types', 'InstitutionTypeController@index')->name('institution-types-index');
@@ -44,6 +52,6 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/map', ['as'=>'map', 'uses'=>'MapController@index']);

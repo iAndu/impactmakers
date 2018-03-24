@@ -30,6 +30,14 @@
     <link rel="apple-touch-icon" sizes="72x72" href="../../public/images/ico/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" href="../../public/images/ico/apple-touch-icon-57x57.png">
 
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 200%;
+      }
+    </style>
+
     <script type="text/javascript">
         jQuery(document).ready(function($){
             'use strict';
@@ -39,24 +47,63 @@
                 "images/bg/bg-robotics-3.jpg"
             ], {duration: 5000, fade: 500, centeredY: true });
 
-            $("#mapwrapper").gMap({ controls: false,
-                scrollwheel: false,
-                markers: [{
-                    latitude:40.7566,
-                    longitude: -73.9863,
-                    icon: { image: "images/marker.png",
-                        iconsize: [44,44],
-                        iconanchor: [12,46],
-                        infowindowanchor: [12, 0] } }],
-                icon: {
-                    image: "images/marker.png",
-                    iconsize: [26, 46],
-                    iconanchor: [12, 46],
-                    infowindowanchor: [12, 0] },
-                latitude:40.7566,
-                longitude: -73.9863,
-                zoom: 14 });
         });
+    </script>
+    <script>
+      var map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: new google.maps.LatLng(44.430575, 26.100955),
+          mapTypeId: 'roadmap'
+        });
+
+        google.maps.event.addListener(map, "click", function(event) {
+            open_infowindow.close();
+        });
+
+        var open_infowindow;
+
+        var iconBase = "/icons/";
+        /*var icons = {
+          university: {
+            icon: iconBase + 'university.png'
+          },
+        };*/
+
+        //let marker;
+
+        //Create markers
+        @foreach($institutions as $institution)
+            var marker = new google.maps.Marker({
+            position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
+            
+            icon: iconBase + '{{ $institution->type->icon->path }}',
+            map: map
+          });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                    //var aux = Object.assign({}, marker);  
+              let contentString = '<h1>' + '{{ $institution->name }}' + '</h1>';
+
+              let infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+
+              if(open_infowindow)
+                open_infowindow.close();
+
+              infowindow.open(map, this);
+
+              open_infowindow = infowindow;
+            });
+          
+        @endforeach
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI2EpvQc_HdFPc12TQTigdfE61gdjkEM8  &callback=initMap">
     </script>
 </head><!--/head-->
 <body>
@@ -1033,7 +1080,6 @@
 <script src="../../js/impact/plugins.js"></script>
 <script src="../../js/impact/bootstrap.min.js"></script>
 <script src="../../js/impact/jquery.prettyPhoto.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWDPCiH080dNCTYC-uprmLOn2mt2BMSUk&amp;sensor=true"></script>
 <script src="../../js/impact/init.js"></script>
 </body>
 </html>
