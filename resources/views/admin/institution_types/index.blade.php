@@ -27,13 +27,15 @@
             <tr>
               <th>Institution type</th>
               <th>Badge</th>
+              <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             @foreach($institutionTypes as $institutionType)
 	            <tr>
 	            	<td>{{ $institutionType->name }}</td>
-	            	<td>{{ $institutionType->badge }}</td>
+	            	<td><img src="{{ "/storage/" . $institutionType->icon->path }}">{{ $institutionType->icon->name }}</td>
+                <td><a href="" class="btn btn-danger"><span class="fa fa-close"> </span> Delete</a></td>
 	            </tr>
            	@endforeach
             </tfoot>

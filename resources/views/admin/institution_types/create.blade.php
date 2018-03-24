@@ -10,7 +10,7 @@
   <!-- /.box-header -->
   <div class="box-body">
     
-    <form method="post" action="/institution-types/upload-icon" enctype="multipart/form-data">
+    <form method="post" action="/institution-types/store" enctype="multipart/form-data">
       @csrf
 
 

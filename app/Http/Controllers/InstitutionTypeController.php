@@ -34,16 +34,6 @@ class InstitutionTypeController extends Controller
         return view('admin.institution_types.create',  compact('icons'));       
     }
 
-    /**
-     * Store
-     * @return [type] [description]
-     */
-    public function store(Request $request)
-    {
-        dd($request->all());
-        return redirect('institution-types-index');
-    }
-
 
     public function index()
     {
@@ -53,17 +43,12 @@ class InstitutionTypeController extends Controller
     }
 
 
-    public function ajaxUploadIcon(Request $request)
+    public function store(Request $request)
     {
         $icons = [];
         $disk   ='public';
-        dd($request->all());
-
-        // $request->icon_id
-        // dd($institutionType);
         
         if ($request->file('icon') && $request->has_upload=='true') {
-            // $institutionType = $institutionType->find($request->id);
             $icon = $request->file('icon');
             
             $file_content = file_get_contents($icon);
@@ -77,12 +62,6 @@ class InstitutionTypeController extends Controller
             ];
 
             $newIcon = Icon::create($icon);
-            // \Alert::success(__('icon_upload_successful'))->flash();   
-            // return back();  
-        
-            
-            // dd($newIcon->id);
-
 
             $institutionType = [
                 'name' => $request->institution_type,
@@ -91,8 +70,6 @@ class InstitutionTypeController extends Controller
 
             InstitutionType::create($institutionType);
 
-            // TODO
-            // \Alert::error(__('icon_upload_fail'))->flash();        
             return back();
         }
 
@@ -103,8 +80,6 @@ class InstitutionTypeController extends Controller
 
         InstitutionType::create($institutionType);
 
-        // TODO
-        // \Alert::error(__('icon_upload_fail'))->flash();        
         return back();
     }
 
