@@ -34,6 +34,9 @@ class InstitutionsController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'ratio' => $request->females / ($request->females + $request->males) * 100
+        ]);
         $institution = Institution::create($request->all());
 
         return response()->json([
