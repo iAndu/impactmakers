@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\InstitutionType;
 use App\InstitutionRating;
 use App\Feedback;
+use App\Photo;
 
 class Institution extends Model
 {
@@ -27,5 +28,10 @@ class Institution extends Model
     public function feedbacks()
     {
         return $this->hasMany(Feedback::class);
+    }
+    
+    public function photos()
+    {
+        return $this->hasMany(Photo::class);
     }
 }
