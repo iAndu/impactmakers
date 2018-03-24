@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return 'ceva';
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
