@@ -21,7 +21,9 @@ class CreateIconsTable extends Migration
 
         Schema::table('institution_types', function (Blueprint $table) {
             $table->integer('icon_id')->unsigned();
-            $table->foreign('icon_id')->references('id')->on('icons')->onDelete('cascade');
+            $table->foreign('icon_id')->references('id')->on('icons')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
         });
     }
 
