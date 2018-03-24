@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Requests\InstitutionTypeRequest;
 
 use DB;
 use App\InstitutionType;
@@ -33,9 +34,10 @@ class InstitutionTypeController extends Controller
      * Store
      * @return [type] [description]
      */
-    public function store()
+    public function store(Request $request)
     {
-        
+        dd($requet);
+        return redirect('institution-types-index');
     }
 
 
