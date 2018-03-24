@@ -1,8 +1,18 @@
+<?php
+
+namespace App\Http\Controllers;
+
+
+use App\Http\Requests;
+use Illuminate\Http\Request;
 use Mapper;
 
-public function index()
+class MapController extends Controller
 {
-    Mapper::map(53.381128999999990000, -1.470085000000040000);
+	public function index()
+	{
+	    Mapper::map(53.381128999999990000, -1.470085000000040000);
 
-    return view('map')
+	    return view('map');
+	}
 }
