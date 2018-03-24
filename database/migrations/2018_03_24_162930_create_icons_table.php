@@ -34,11 +34,12 @@ class CreateIconsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('icons');
-
-        Schema::table('institution_types', function (Blueprint $table) {
-            $table->dropColumn('icon_id');
+        Schema::table('institution_types', function(Blueprint $table) {
+            $table->dropForeign('institution_types_icon_id_foreign');
+            $table->dropColumn('icon_id');            
         });
+
+        Schema::drop('icons');
     }
 
 }
