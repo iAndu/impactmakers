@@ -13,8 +13,8 @@
 Auth::routes();
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('index');
 
 
 Route::group(['middleware' => ['auth']], function () {
