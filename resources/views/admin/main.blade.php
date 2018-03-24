@@ -74,7 +74,7 @@
         </div>
         <div class="pull-left info">
           <p>{{ Auth::user()->name }}</p>
-          <small><a href="#">Logout</a></small>          
+          <small><a id="logout" href="#">Logout</a></small>          
         </div>
       </div>
 
@@ -121,18 +121,30 @@
 <!-- AdminLTE App -->
 <script src="/dist/js/adminlte.min.js"></script>
 
-<script type="text/javascript">
+<script>
+    $('#logout').on('click', function () {
+        $.ajax({
+            url: '/logout',
+            method: 'post',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function () {
+                window.location = '/';
+            }
+        });
+    });
   var url = window.location;
 
-// for sidebar menu entirely but not cover treeview
-$('ul.sidebar-menu a').filter(function() {
-   return this.href == url;
-}).parent().addClass('active');
+  // for sidebar menu entirely but not cover treeview
+  $('ul.sidebar-menu a').filter(function() {
+    return this.href == url;
+  }).parent().addClass('active');
 
-// for treeview
-$('ul.treeview-menu a').filter(function() {
-   return this.href == url;
-}).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
+  // for treeview
+  $('ul.treeview-menu a').filter(function() {
+    return this.href == url;
+  }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
 </script>
 
 @stack('scripts')

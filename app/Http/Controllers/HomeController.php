@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Institution;
+use App\InstitutionType;
+use App\Photo;
 
 class HomeController extends Controller
 {
@@ -26,6 +28,13 @@ class HomeController extends Controller
     public function index()
     {
         $institutions = Institution::all();
-        return view('index', compact('institutions'));
+        $institutionTypes = InstitutionType::all();
+        $photos = Photo::all();
+        
+        if ($photos->count() > 9) {
+            $photos = $photos->random(9);
+        }
+
+        return view('index', compact('institutions', 'institutionTypes', 'photos'));
     }
 }

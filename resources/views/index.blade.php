@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home | Impact By Distinctive Themes</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">    
+    <title>Hackaton</title>
     <link href="{{ URL::asset('css/impact/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/pe-icons.css') }}" rel="stylesheet">
@@ -37,9 +38,33 @@
           height: 700px;
       }
 
+      section#mapView {
+        padding: 0;          
+      }
+
       #map {
         height: 100%;
       }
+
+      form input, form select {
+        width: 100%;
+        padding: 10px 5px;
+        margin-bottom: 15px;
+        background-color: rgba(0, 0, 0, 0.1);
+        color: #202020;
+        border: none;
+      }
+
+      form textarea {
+        width: 100%;
+        min-height: 150px;
+        padding: 10px 5px;
+        margin-bottom: 15px;
+        background-color: rgba(0, 0, 0, 0.1);
+        color: #202020;
+        border: none;
+      }
+
     </style>
 
     <!-- Modal -->
@@ -165,20 +190,16 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" class="smoothScroll gototop">Home</a></li>
-                <li><a href="#about-us" class="smoothScroll">About Us</a></li>
                 <li><a href="#map" class="smoothScroll">Map</a></li>
                 <li><a href="#create" class="smoothScroll">Create</a></li>
-                <li><a href="#contact-us" class="smoothScroll">Contact</a></li>
-                <li><a href="#login" class="smoothScroll">Login</a></li>
-                <li class="dropdown active">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages <i class="icon-angle-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="project-item.html">Project Single</a></li>
-                        <li><a href="blog-item.html">Blog Single</a></li>
-                        <li class="active"><a href="404.html">404</a></li>
-                    </ul>
-                </li>
-                <li><span class="search-trigger"><i class="fa fa-search"></i></span></li>
+                <li><a href="#about-us" class="smoothScroll">About Us</a></li>
+                <li><a href="#gallery" class="smoothScroll">Gallery</a></li>                
+                {{--  <li><a href="#contact-us" class="smoothScroll">Contact</a></li>  --}}
+                @if (!Auth::user())
+                    <li><a href="{{ route('login') }}">Login</a></li>
+                @else
+                    <li><a id="logout" href="#">Logout</a></li>
+                @endif               
             </ul>
         </div>
     </div>
@@ -216,13 +237,13 @@
                     <div class="center gap fade-down section-heading">
                         <h2 class="main-title">Things You Can Do</h2>
                         <hr>
-                        <p>Of an or game gate west face shed. ﻿no great but music too old found arose.</p>
+                        {{--  <p>Of an or game gate west face shed. ﻿no great but music too old found arose.</p>  --}}
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-6 col-sm-6">
+                <a href="#map"><div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-globe fa fa-md"></i>
@@ -232,8 +253,8 @@
                             <p>Check the map to see the registered robotics-related entities.</p>
                         </div>
                     </div>
-                </div><!--/.col-md-6-->
-                <div class="col-md-6 col-sm-6">
+                </div></a><!--/.col-md-6-->
+                <a href="#create"><div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-plus-square fa fa-md"></i>
@@ -243,11 +264,11 @@
                             <p>Register an institution through a quick form.</p>
                         </div>
                     </div>
-                </div><!--/.col-md-6-->
+                </div></a><!--/.col-md-6-->
             </div><!--/.row-->
             <div class="gap"></div>
             <div class="row">
-                <div class="col-md-6 col-sm-6">
+                <a href="#events"><div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-calendar fa fa-md"></i>
@@ -257,8 +278,8 @@
                             <p>See upcoming robotics-related events & sign up for them.</p>
                         </div>
                     </div>
-                </div><!--/.col-md-6-->
-                <div class="col-md-6 col-sm-6">
+                </div></a><!--/.col-md-6-->
+                <a href="#feedback"><div class="col-md-6 col-sm-6">
                     <div class="service-block">
                         <div class="pull-left bounce-in">
                             <i class="fa fa-star fa fa-md"></i>
@@ -268,11 +289,11 @@
                             <p>Offer feedbacks</p>
                         </div>
                     </div>
-                </div><!--/.col-md-6-->
+                </div></a><!--/.col-md-6-->
             </div><!--/.row-->
         </div>
-        <div class="gap"></div>
-        <div class="container">
+        {{--  <div class="gap"></div>  --}}
+        {{--  <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="center gap fade-down section-heading">
@@ -282,7 +303,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -351,12 +372,56 @@
                 </div>
             </div><!--/.row-->
             <div class="gap"></div>
-        </div>
+        </div> --}}
+        <div class="gap"></div>        
     </section>
 
     <section id="mapView" class="white">
         <div id="mapwrapper">
             <div id="map"></div>
+        </div>
+    </section>
+
+    <section id="create" class="white">
+        <div class="container">
+            <div class="gap"></div>
+            <div class="center gap fade-down section-heading">
+                <h2 class="main-title">Add a location</h2>
+                <hr>
+                <p>Tell us about a robotic-related place you know.</p>
+            </div>
+            <div class="gap"></div>
+            <form method="post" action="{{ route('institutions.store') }}" id="store-institution">            
+                <div class="row">
+                    <div class="col-md-6 fade-up">
+                        <input type="text" name="name" placeholder="Name" />
+                        <select name="type_id">
+                            @foreach ($institutionTypes as $institutionType)
+                                <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
+                            @endforeach
+                        </select>
+                        <input type="text" name="address" placeholder="Address" />
+                        <input type="text" name="owner_name" placeholder="Optional. Owner name" />
+                        <input type="text" name="short_description" placeholder="Optional. Short description" />
+                        <textarea name="description" placeholder="Optional. Description"></textarea>
+                    </div><!-- col -->
+
+                    <div class="col-md-6 fade-up">
+                        <input type="hidden" name="lat" />
+                        <input type="hidden" name="lng" />
+                        <input type="text" name="website" placeholder="Optional. Website" />                        
+                        <input type="text" name="email" placeholder="Optional. Contact email" />
+                        <input type="text" name="phone_number" placeholder="Optional. Phone number" />
+                        <input type="text" name="fb_page" placeholder="Optional. Facebook page" />
+                        <input type="text" name="twitter_page" placeholder="Optional. Twitter page" />
+                        <input type="text" name="ig_page" placeholder="Optional. Instagram page" />
+                        <input type="text" name="males" placeholder="Optional. Number of males" />
+                        <input type="text" name="females" placeholder="Optional. Number of females" />
+                        <input class="btn btn-outlined btn-primary" type="submit" name="submit" value="Submit" />
+                    </div><!-- col -->
+                </div><!-- row -->
+            </form>            
+            <div class="gap"></div>
         </div>
     </section>
 
@@ -414,14 +479,14 @@
             </div>
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 fade-up">
-                    <p class="text-center">We're a NGO called E-Civis, based in Romania. Our mission is to promote democratic values
+                    <p class="text-center">We're an NGO called E-Civis, based in Romania. Our mission is to promote democratic values
                     at a global level.</p>
                 </div>
                 <div class="col-md-4 fade-up">
 
                 </div>
             </div>
-            <div class="gap"></div>
+            {{--  <div class="gap"></div>
             <div class="gap"></div>
             <div class="center gap fade-down section-heading">
                 <h2 class="main-title">Meet The Team</h2>
@@ -492,7 +557,7 @@
                         </div>
                     </div>
                 </div>
-            </div><!--/#meet-the-team-->
+            </div><!--/#meet-the-team-->  --}}
             <div class="gap"></div>
             <div class="gap"></div>
         </div>
@@ -535,108 +600,31 @@
         <div class="gap"></div>
     </section>
 
-    <section id="portfolio" class="white">
+    <section id="gallery" class="white">
         <div class="container">
             <div class="gap"></div>
             <div class="center gap fade-down section-heading">
-                <h2 class="main-title">Examples Of Excellence</h2>
+                <h2 class="main-title">Gallery</h2>
                 <hr>
-                <p>She evil face fine calm have now. Separate screened he outweigh of distance landlord.</p>
+                <p>See some of the user uploaded photos down below.</p>
             </div>
-            <ul class="portfolio-filter fade-down center">
-                <li><a class="btn btn-outlined btn-primary active" href="#" data-filter="*">All</a></li>
-                <li><a class="btn btn-outlined btn-primary" href="#" data-filter=".apps">Apps</a></li>
-                <li><a class="btn btn-outlined btn-primary" href="#" data-filter=".nature">Nature</a></li>
-                <li><a class="btn btn-outlined btn-primary" href="#" data-filter=".design">Design</a></li>
-            </ul><!--/#portfolio-filter-->
 
             <ul class="portfolio-items col-3 isotope fade-up">
-                <li class="portfolio-item apps isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio01.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio01.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
+                @foreach ($photos as $photo)
+                    <li class="portfolio-item apps isotope-item">
+                        <div class="item-inner">
+                            <img src="{{ $photo->path }}" alt="">
+                            <div class="overlay">
+                                <a class="preview btn btn-outlined btn-primary" href="{{ $photo->path }}" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
+                            </div>
                         </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item joomla nature isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio02.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio02.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item bootstrap design isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio03.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio03.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item joomla design apps isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio04.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio04.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item joomla apps isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio05.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio05.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item wordpress nature isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio06.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio06.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item joomla design apps isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio07.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio07.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item joomla nature isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio08.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio08.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
-                <li class="portfolio-item wordpress design isotope-item">
-                    <div class="item-inner">
-                        <img src="images/portfolio/folio09.jpg" alt="">
-                        <h5>Portfolio Project</h5>
-                        <div class="overlay">
-                            <a class="preview btn btn-outlined btn-primary" href="images/portfolio/folio09.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </li><!--/.portfolio-item-->
+                    </li><!--/.portfolio-item-->
+                @endforeach
             </ul>
         </div>
     </section>
 
-    <section id="testimonial-carousel" class="divider-section">
+    {{--  <section id="testimonial-carousel" class="divider-section">
         <div class="gap"></div>
         <div class="container">
             <div class="row">
@@ -704,147 +692,9 @@
             </div>
             <div class="gap"></div>
         </div>
-    </section>
+    </section>  --}}
 
-    <section id="pricing" class="white">
-        <div class="container">
-            <div class="center gap fade-down section-heading">
-                <h2 class="main-title">So, How Much?</h2>
-                <hr>
-                <p>Of an or game gate west face shed. ﻿no great but music too old found arose.</p>
-            </div>
-            <div class="gap"></div>
-            <div id="pricing-table" class="row">
-                <div class="col-md-3 col-xs-6 flip-in">
-                    <ul class="plan plan1">
-                        <li class="plan-name">
-                            <h3>Basic</h3>
-                        </li>
-                        <li class="plan-price">
-                            <div>
-                                <span class="price"><sup>$</sup>10</span>
-                                <small>month</small>
-                            </div>
-                        </li>
-                        <li>
-                            <strong>5GB</strong> Storage
-                        </li>
-                        <li>
-                            <strong>1GB</strong> RAM
-                        </li>
-                        <li>
-                            <strong>400GB</strong> Bandwidth
-                        </li>
-                        <li>
-                            <strong>10</strong> Email Address
-                        </li>
-                        <li>
-                            <strong>Forum</strong> Support
-                        </li>
-                        <li class="plan-action">
-                            <a href="#" class="btn btn-outlined btn-primary btn-md btn-white">Signup</a>
-                        </li>
-                    </ul>
-                </div><!--/.col-md-3-->
-                <div class="col-md-3 col-xs-6 flip-in">
-                    <ul class="plan plan2 featured">
-                        <li class="plan-name">
-                            <h3>Standard</h3>
-                        </li>
-                        <li class="plan-price">
-                            <div>
-                                <span class="price"><sup>$</sup>20</span>
-                                <small>month</small>
-                            </div>
-                        </li>
-                        <li>
-                            <strong>5GB</strong> Storage
-                        </li>
-                        <li>
-                            <strong>1GB</strong> RAM
-                        </li>
-                        <li>
-                            <strong>400GB</strong> Bandwidth
-                        </li>
-                        <li>
-                            <strong>10</strong> Email Address
-                        </li>
-                        <li>
-                            <strong>Forum</strong> Support
-                        </li>
-                        <li class="plan-action">
-                            <a href="#" class="btn btn-outlined btn-primary btn-md">Signup</a>
-                        </li>
-                    </ul>
-                </div><!--/.col-md-3-->
-                <div class="col-md-3 col-xs-6 flip-in">
-                    <ul class="plan plan3">
-                        <li class="plan-name">
-                            <h3>Advanced</h3>
-                        </li>
-                        <li class="plan-price">
-                            <div>
-                                <span class="price"><sup>$</sup>40</span>
-                                <small>month</small>
-                            </div>
-                        </li>
-                        <li>
-                            <strong>50GB</strong> Storage
-                        </li>
-                        <li>
-                            <strong>8GB</strong> RAM
-                        </li>
-                        <li>
-                            <strong>1024GB</strong> Bandwidth
-                        </li>
-                        <li>
-                            <strong>Unlimited</strong> Email Address
-                        </li>
-                        <li>
-                            <strong>Forum</strong> Support
-                        </li>
-                        <li class="plan-action">
-                            <a href="#" class="btn btn-outlined btn-primary btn-md btn-white">Signup</a>
-                        </li>
-                    </ul>
-                </div><!--/.col-md-3-->
-                <div class="col-md-3 col-xs-6 flip-in">
-                    <ul class="plan plan4">
-                        <li class="plan-name">
-                            <h3>Mighty</h3>
-                        </li>
-                        <li class="plan-price">
-                            <div>
-                                <span class="price"><sup>$</sup>100</span>
-                                <small>month</small>
-                            </div>
-                        </li>
-                        <li>
-                            <strong>50GB</strong> Storage
-                        </li>
-                        <li>
-                            <strong>8GB</strong> RAM
-                        </li>
-                        <li>
-                            <strong>1024GB</strong> Bandwidth
-                        </li>
-                        <li>
-                            <strong>Unlimited</strong> Email Address
-                        </li>
-                        <li>
-                            <strong>Forum</strong> Support
-                        </li>
-                        <li class="plan-action">
-                            <a href="#" class="btn btn-outlined btn-primary btn-md btn-white">Signup</a>
-                        </li>
-                    </ul>
-                </div><!--/.col-md-3-->
-            </div>
-            <div class="gap"></div>
-        </div>
-    </section>
-
-    <section id="contact-us" class="white">
+    {{--  <section id="contact-us" class="white">
         <div class="container">
             <div class="gap"></div>
             <div class="center gap fade-down section-heading">
@@ -884,7 +734,7 @@
             </div><!-- row -->
             <div class="gap"></div>
         </div>
-    </section>
+    </section>  --}}
 </div>
 
 <div id="footer-wrapper">
@@ -966,5 +816,27 @@
 <script src="../../js/impact/bootstrap.min.js"></script>
 <script src="../../js/impact/jquery.prettyPhoto.js"></script>
 <script src="../../js/impact/init.js"></script>
+
+<script>
+    $('#logout').on('click', function () {
+        $.ajax({
+            url: '/logout',
+            method: 'post',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function () {
+                window.location = '/';
+            }
+        });
+    });
+
+    $('#store-institution').on('submit', function (e) {
+        e.preventDefault();
+
+        
+    })
+</script>
+
 </body>
 </html>
