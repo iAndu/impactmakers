@@ -23,6 +23,16 @@ Route::group(['middleware' => ['auth']], function () {
         return view('admin.main');
     });
 
+    Route::get('/institutions', [
+        'uses' => 'InstitutionsController@index',
+        'as' => 'institutions.index'
+    ]);
+
+    Route::post('/institutions/{institution}', [
+        'uses' => 'InstitutionsController@update',
+        'as' => 'institutions.update'
+    ]);
+
     Route::get('/institution-types', 'InstitutionTypeController@index')->name('institution-types-index');
     Route::get('/institution-types/create', 'InstitutionTypeController@create')
     ->name('institution-types-create');
