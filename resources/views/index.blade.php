@@ -601,7 +601,7 @@
                 <p>Tell us about a robotic-related place you know.</p>
             </div>
             <div class="gap"></div>
-            <form method="post" action="{{ route('institutions.store') }}" id="store-institution"> 
+            <form method="post" action="{{ route('institutions.store') }}" id="store-institution" enctype="multipart/form-data"> 
                 @csrf           
 
                 <div class="row">
@@ -641,6 +641,18 @@
                         <input type="text" name="females" placeholder="Optional. Number of females" />
                     </div><!-- col -->
                 </div><!-- row -->
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                      <label for="photos">Upload photos</label>
+                      <input
+                      type="file"
+                      id="photos"
+                      name="photos[]"
+                      value="{{ old('photos', "") }}" class="form-control"
+                      multiple>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12 col-lg-offset-3 col-lg-6">

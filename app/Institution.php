@@ -14,6 +14,7 @@ class Institution extends Model
     use SoftDeletes;
 
     protected $guarded = ['id', 'deleted_at', 'status'];
+    public $timestamps = false;
 
     public function type()
     {
