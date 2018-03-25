@@ -7,6 +7,9 @@ use App\Institution;
 use App\InstitutionRating;
 use App\InstitutionType;
 use Auth;
+use App\Photo;
+use Illuminate\Support\Facades\Storage;
+
 
 class InstitutionsController extends Controller
 {
@@ -55,12 +58,43 @@ class InstitutionsController extends Controller
 
     public function store(Request $request)
     {
+        $icons = [];
+        $disk   ='public';
+
         // dd($request->all());
         $request->merge([
             'ratio' => $request->females / max(0.000001, ($request->females + $request->males)) * 100
         ]);
-        $request = $request->except(['males', 'females', 'submit']);
+
+        $photoFiles = $request->file('photos');
+    
+        $request = $request->except(['males', 'females', 'submit', 'photos']);
         $institution = Institution::create($request);
+
+        // dd($photoFiles);
+        if( $photoFiles ) {
+            foreach($photoFiles as $photo) {
+                // dd($photo);
+                // $photo = $request->file($photo);
+            
+                $file_content = file_get_contents($photo);
+                $filename = md5(uniqid('', true)).'.'.$photo->extension();
+
+                Storage::disk($disk)->put(config('paths.institution_photos') . $filename, $file_content);
+
+                $photo = [
+                    // 'name'  => $request->marker_name,
+                    'path'  => '/storage/' . config('paths.institution_photos') . $filename,
+                    'institution_id' => $institution->id
+                ];
+
+                $newPhoto = Photo::create($photo);
+
+            }
+        } else {
+            $photo = Photo::create(['path' => '/images/default_institution.jpg',
+                'institution_id' => $institution->id]);    
+        }
 
         return redirect('/');
         // return response()->json([

@@ -88,6 +88,10 @@
           float: none;
           margin: 0 auto;
       }
+
+      .fix_me {
+          left: 15px;
+      }
     </style>
 
     <!-- Modal -->
@@ -310,10 +314,11 @@
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
-            icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
+            icon: {url: "{{ ($institution->ratio >= 0.45 && $institution->ratio <= 0.55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
+              label: '{{ $institution->events->count() }}',
               rating: {!! json_encode($institution->computeRating()) !!}
           });
 
@@ -324,7 +329,7 @@
               
               let contentString = '<div class="row"><div class="col-xs-3"> <img src=' + '{{ $institution->photos->first()->path }}' + ' height="60" width="60"> </div>';
 
-              contentString += '<div class="col-xs-9"> <b>' + '{{ $institution->name }}' + '</b>';
+              contentString += '<div class="col-xs-9 fix_me"> <b>' + '{{ $institution->name }}' + '</b>';
 
               short_des = '{{ $institution->short_description }}';
 
@@ -654,8 +659,8 @@
 
     <section id="mapView" class="white">
         <div id="mapwrapper">
+            <p style="margin-bottom:10px"> <b> Filter by institution type </b> </p>
             <select class="js-example-basic-multiple" multiple="multiple" style="position:relative; z-index: 100; bottom: -200px" id="type" onchange="filterMarkers();">
-                <option value= "">Please select category</option>
                 @foreach($institution_types as $type)
                     <option value="{{ $type->id }}">{{ $type->name }}</option>
                 @endforeach
@@ -673,13 +678,14 @@
                 <p>Tell us about a robotic-related place you know.</p>
             </div>
             <div class="gap"></div>
-            <form method="post" action="{{ route('institutions.store') }}" id="store-institution"> 
+            <form method="post" action="{{ route('institutions.store') }}" id="store-institution" enctype="multipart/form-data"> 
                 @csrf           
 
                 <div class="row">
                     <div class="col-md-6 fade-up">
-                        <input type="text" name="name" placeholder="Name" />
-                        <select name="type_id">
+                        <input id="create-name" type="text" name="name" placeholder="Name" />
+                        <span class="error_form" id="create-name_error_message"></span>
+                        <select id="create-type" name="type_id">
                             @foreach ($institution_types as $institutionType)
                                 <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
                             @endforeach
@@ -687,6 +693,7 @@
                         <!-- <input type="text" name="address" placeholder="Address" /> -->
                         <input id="address" name="address" type="text"
                                 placeholder="Address">
+                        <span class="error_form" id="address_error_message"></span>
                         <input type="hidden" name="lat" id="lat">
                         <input type="hidden" name="lng" id="lng">
                         <!-- <div id="infowindow-content">
@@ -695,24 +702,37 @@
                             <span id="place-address"></span>
                         </div> -->
 
-                        <input type="text" name="owner_name" placeholder="Optional. Owner name" />
-                        <input type="text" name="short_description" placeholder="Optional. Short description" />
+                        <input id="create-owned" type="text" name="owner_name" placeholder="Optional. Owner name" />
+                        <input id="create-short-desc" type="text" name="short_description" placeholder="Optional. Short description" />
                         <textarea name="description" placeholder="Optional. Description"></textarea>
                     </div><!-- col -->
 
                     <div class="col-md-6 fade-up">
                         <input type="hidden" name="lat" />
                         <input type="hidden" name="lng" />
-                        <input type="text" name="website" placeholder="Optional. Website" />                        
-                        <input type="text" name="email" placeholder="Optional. Contact email" />
-                        <input type="text" name="phone_number" placeholder="Optional. Phone number" />
-                        <input type="text" name="fb_page" placeholder="Optional. Facebook page" />
-                        <input type="text" name="twitter_page" placeholder="Optional. Twitter page" />
-                        <input type="text" name="ig_page" placeholder="Optional. Instagram page" />
-                        <input type="text" name="males" placeholder="Optional. Number of males" />
-                        <input type="text" name="females" placeholder="Optional. Number of females" />
+                        <input id="create-website" type="text" name="website" placeholder="Optional. Website" />
+                        <input id="create-email" type="text" name="email" placeholder="Optional. Contact email" />
+                        <span class="error_form" id="email_error_message"></span>
+                        <input id="create-phone" type="text" name="phone_number" placeholder="Optional. Phone number" />
+                        <input id="create-fb" type="text" name="fb_page" placeholder="Optional. Facebook page" />
+                        <input id="create-tw" type="text" name="twitter_page" placeholder="Optional. Twitter page" />
+                        <input id="create-ig" type="text" name="ig_page" placeholder="Optional. Instagram page" />
+                        <input id="create-males" type="text" name="males" placeholder="Optional. Number of males" />
+                        <input id="create-females" type="text" name="females" placeholder="Optional. Number of females" />
                     </div><!-- col -->
                 </div><!-- row -->
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                      <label for="photos">Upload photos</label>
+                      <input
+                      type="file"
+                      id="photos"
+                      name="photos[]"
+                      value="{{ old('photos', "") }}" class="form-control"
+                      multiple>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12 col-lg-offset-3 col-lg-6">
@@ -1148,7 +1168,100 @@
     
 </script>
 
+<script type="text/javascript">
+    $(function() {
 
+        $("#create-name_error_message").hide();
+        $("#address_error_message").hide();
+        $("#email_error_message").hide();
+
+        var error_create_name = false;
+        var error_address = false;
+        var error_email = false;
+
+        $("#create-name").focusout(function(){
+            check_create_name();
+        });
+        $("#address").focusout(function() {
+            check_address();
+        });
+        $("#create-email").focusout(function() {
+            check_email();
+        });
+
+        function check_create_name() {
+            var fname = $("#create-name").val();
+
+            if(fname === '') {
+                $("#create-name_error_message").html("Cannot be blank");
+                $("#create-name_error_message").show();
+                $("#create-name").css("border-bottom","2px solid #F90A0A");
+                error_create_name = true;
+            }
+            else if (fname !== '') {
+                $("#create-name_error_message").hide();
+                $("#create-name").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#create-name_error_message").html("Should contain only Characters");
+                $("#create-name_error_message").show();
+                $("#create-name").css("border-bottom","2px solid #F90A0A");
+                error_create_name = true;
+            }
+        }
+
+        function check_address() {
+            var sname = $("#address").val()
+            if (sname !== '') {
+                $("#address_error_message").hide();
+                $("#address").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#address_error_message").html("Cannot be blank");
+                $("#address_error_message").show();
+                $("#address").css("border-bottom","2px solid #F90A0A");
+                error_fname = true;
+            }
+        }
+
+        function check_email() {
+            var pattern = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            var email = $("#create-email").val();
+
+            if(email === '') {
+                $("#email_error_message").hide();
+                $("#create-email").css("border-bottom","2px solid #34F458");
+            }
+            else if (pattern.test(email) && email !== '') {
+                $("#email_error_message").hide();
+                $("#create-email").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#email_error_message").html("Invalid Email");
+                $("#email_error_message").show();
+                $("#email_error_message").css("border-bottom","2px solid #F90A0A");
+                error_email = true;
+            }
+        }
+
+        $("#store-institution").submit(function() {
+            error_create_name = false;
+            error_address = false;
+            error_email = false;
+
+            check_create_name();
+            check_address();
+            check_email();
+
+            if (error_create_name === false && error_address === false && error_email === false) {
+                alert("Registration Successfull");
+                return true;
+            } else {
+                alert("Please Fill the form Correctly");
+                return false;
+            }
+
+
+        });
+    });
+</script>
 
 </body>
 </html>
