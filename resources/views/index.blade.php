@@ -514,7 +514,7 @@
                 @if (!Auth::user())
                     <li><a href="{{ route('login') }}">Login</a></li>
                 @else
-                    <li><a id="admin_panel" href="/institutions">Admin panel</a></li>
+                    <li><a id="admin_panel" href="{{ route('institutions.index') }}">Admin panel</a></li>
                     <li><a id="logout" href="#">Logout</a></li>
                 @endif
             </ul>
