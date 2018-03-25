@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
-    protected $fillable = ['name', 'path'];
+    protected $fillable = ['institution_id', 'path'];
     public $timestamps = false;
 }
