@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Institution;
 use App\InstitutionRating;
 use App\InstitutionType;
+use Auth;
 use App\Photo;
-
 use Illuminate\Support\Facades\Storage;
 
 
@@ -114,6 +114,20 @@ class InstitutionsController extends Controller
 
     public function rate(Request $request, Institution $institution)
     {
+        if (Auth::user()) {
+            $rating = Auth::user()->ratings()->where('institution_id', $institution->id)->first();
+
+            if ($rating) {
+                $rating->update([
+                    'rating' => $request->rating
+                ]);
+
+                return response()->json([
+                    'status' => 'success'
+                ]);
+            }
+        }
+
         InstitutionRating::create([
             'user_id' => Auth::id(),
             'institution_id' => $institution->id,

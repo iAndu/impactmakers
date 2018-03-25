@@ -27,9 +27,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $institutions = Institution::where('status', 1)->get();
+        $institutions = Institution::with('photos')->where('status', 1)->get();
         $institution_types = InstitutionType::all();
         $photos = Photo::all();
+
+        foreach ($institutions as $institution) {
+            $institution->rating = $institution->computeRating();
+        }
         
         if ($photos->count() > 9) {
             $photos = $photos->random(9);
