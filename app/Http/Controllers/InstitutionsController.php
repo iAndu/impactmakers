@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Institution;
 use App\InstitutionRating;
 use App\InstitutionType;
+use App\Photo;
 
 class InstitutionsController extends Controller
 {
@@ -58,8 +59,16 @@ class InstitutionsController extends Controller
         $request->merge([
             'ratio' => $request->females / max(0.000001, ($request->females + $request->males)) * 100
         ]);
+
+
         $request = $request->except(['males', 'females', 'submit']);
         $institution = Institution::create($request);
+
+        // dd($institution->id);
+        // if(!$request->photos) {
+            $photo = Photo::create(['path' => '/images/default_institution.jpg',
+                'institution_id' => $institution->id]);    
+        // }
 
         return redirect('/');
         // return response()->json([
