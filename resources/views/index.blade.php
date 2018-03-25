@@ -30,6 +30,8 @@
     <link rel="apple-touch-icon" sizes="114x114" href="../../public/images/ico/apple-touch-icon-114x114.png">
     <link rel="apple-touch-icon" sizes="72x72" href="../../public/images/ico/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" href="../../public/images/ico/apple-touch-icon-57x57.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -104,7 +106,11 @@
         });
     </script>
     <script>
+      $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+      });
       var map;
+      var markers = [];
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -113,16 +119,41 @@
           mapTypeId: 'roadmap'
         });
 
+       filterMarkers = function() {
+            if($('#type').val())
+            {
+                var valori = $('#type').val().toString().split(",");
+                for(var i = 0; i < valori.length; i++)
+                    valori[i] = parseInt(valori[i]);
+
+                for (i = 0; i < markers.length; i++) {
+
+                    if($.inArray(JSON.parse(markers[i].category.replace(/&quot;/g,'"')).id, valori) != -1)
+                        markers[i].setVisible(true);
+                    else
+                        markers[i].setVisible(false);
+                }
+            }
+            else
+            {
+                for (i = 0; i < markers.length; i++) {
+                    markers[i].setVisible(true);
+                }
+            }
+        }
+
         var open_infowindow;
 
         //Create markers
         @foreach($institutions as $institution)
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
-            
+            category: '{{ $institution->type->toJson() }}',
             icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
             map: map
           });
+
+            markers.push(marker);
 
             google.maps.event.addListener(marker, 'mouseover', function() {
                     //var aux = Object.assign({}, marker);  
@@ -382,6 +413,12 @@
 
     <section id="mapView" class="white">
         <div id="mapwrapper">
+            <select class="js-example-basic-multiple" multiple="multiple" style="position:relative; z-index: 100; bottom: -200px" id="type" onchange="filterMarkers();">
+                <option value= "">Please select category</option>
+                @foreach($institution_types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                @endforeach
+            </select>
             <div id="map"></div>
         </div>
     </section>
@@ -400,7 +437,7 @@
                     <div class="col-md-6 fade-up">
                         <input type="text" name="name" placeholder="Name" />
                         <select name="type_id">
-                            @foreach ($institutionTypes as $institutionType)
+                            @foreach ($institution_types as $institutionType)
                                 <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
                             @endforeach
                         </select>
