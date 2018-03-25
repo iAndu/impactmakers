@@ -272,6 +272,7 @@
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
+              label: '{{ $institution->events->count() }}',
               rating: {!! json_encode($institution->computeRating()) !!}
           });
 

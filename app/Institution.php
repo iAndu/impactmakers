@@ -8,6 +8,7 @@ use App\InstitutionType;
 use App\InstitutionRating;
 use App\Feedback;
 use App\Photo;
+use App\Event;
 
 class Institution extends Model
 {
@@ -50,5 +51,10 @@ class Institution extends Model
             return $ratings / $count;
         else
             return 0;
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
     }
 }
