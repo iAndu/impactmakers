@@ -71,12 +71,12 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
-          <a href="/institutions">
+          <a href="/admin/institutions">
             <i class="fa fa-building"></i> <span>Institutions</span>
           </a>
         </li>
         <li>
-          <a href="/institution-types">
+          <a href="/admin/institution-types">
             <i class="fa fa-graduation-cap"></i> <span>Institution Types</span>
           </a>
         </li>
