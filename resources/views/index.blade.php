@@ -79,6 +79,9 @@
           width: 100%;
       }
 
+      .modal-dialog {
+        width: 60%;
+      }
 
       .modal-body .container {
           max-width: 100%;
