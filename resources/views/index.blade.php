@@ -33,27 +33,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
-    <link rel="stylesheet" href="{{ URL::asset('css/starrr.css') }}">
-    <style type='text/css'>
-        img.ribbon {
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            right: 0;
-            border: 0;
-            cursor: pointer; }
-
-        .container {
-            margin-top: 60px;
-            text-align: center;
-            max-width: 450px; }
-
-        input {
-            width: 30px;
-            margin: 10px 0;
-        }
-    </style>
-
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -101,61 +80,7 @@
           float: none;
           margin: 0 auto;
       }
-
-      .rating {
-          unicode-bidi: bidi-override;
-          direction: rtl;
-          width: 8em;
-      }
-
-      .rating input {
-          position: absolute;
-          left: -999999px;
-      }
-
-      .rating label {
-          display: inline-block;
-          font-size: 0;
-      }
-
-      .rating > label:before {
-          position: relative;
-          font: 24px/1 FontAwesome;
-          display: block;
-          content: "\f005";
-          color: #ccc;
-          background: -webkit-linear-gradient(-45deg, #d9d9d9 0%, #b3b3b3 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-      }
-
-      .rating > label:hover:before,
-      .rating > label:hover ~ label:before,
-      .rating > label.selected:before,
-      .rating > label.selected ~ label:before {
-          color: #f0ad4e;
-          background: -webkit-linear-gradient(-45deg, #fcb551 0%, #d69a45 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-      }
-
-      .starrr { display: inline-block; }
-
-      .starrr i {
-          font-size: 16px;
-          padding: 0 1px;
-          cursor: pointer;
-          color: #ffd119;
-      }
-
     </style>
-    <script type="text/javascript">
-        $('.rating input').change(function () {
-            var $radio = $(this);
-            $('.rating .selected').removeClass('selected');
-            $radio.closest('label').addClass('selected');
-        });
-    </script>
 
     <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
@@ -270,7 +195,6 @@
                         </div>
                     </form>
                     <hr>
-                    <div class="starrr" id="star1"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1122,38 +1046,6 @@
 <script src="../../js/impact/bootstrap.min.js"></script>
 <script src="../../js/impact/jquery.prettyPhoto.js"></script>
 <script src="../../js/impact/init.js"></script>
-<script src="../../js/starrr.js"></script>
-
-<script>
-    $('#star1').starrr({
-        change: function(e, value){
-            if (value) {
-                $('.your-choice-was').show();
-                $('.choice').text(value);
-            } else {
-                $('.your-choice-was').hide();
-            }
-        }
-    });
-
-    var $s2input = $('#star2_input');
-    $('#star2').starrr({
-        max: 10,
-        rating: $s2input.val(),
-        change: function(e, value){
-            $s2input.val(value).trigger('input');
-        }
-    });
-</script>
-<script type="text/javascript">
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-39205841-5', 'dobtco.github.io');
-    ga('send', 'pageview');
-</script>
 
 <script>
     $('#logout').on('click', function () {
@@ -1183,7 +1075,6 @@
     //         data: formData
     //     });
     // })
-
 </script>
 
 
