@@ -51,6 +51,11 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'institutions.update'
     ]);
 
+    Route::put('/institutions/change-status/{institution}', [
+        'uses' => 'InstitutionsController@changeStatus',
+        'as' => 'institutions.changeStatus'
+    ]);
+
     Route::delete('/instiutions/{institution}', [
         'uses' => 'InstitutionsController@delete',
         'as' => 'institutions.delete'

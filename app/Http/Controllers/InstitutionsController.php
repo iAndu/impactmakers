@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Institution;
 use App\InstitutionRating;
+use App\InstitutionType;
 
 class InstitutionsController extends Controller
 {
     public function index()
     {
         $institutions = Institution::all();
+        $institutionTypes = InstitutionType::all();
 
-        return view('admin.institutions.index', compact('institutions'));
+        return view('admin.institutions.index', compact('institutions',  'institutionTypes'));
     }
 
     public function getInstitutions(Request $request)
@@ -30,11 +32,19 @@ class InstitutionsController extends Controller
         ]);
     }
 
-    public function update(Institution $institution)
+    public function update(Request $request, Institution $institution)
     {
-        $institution->update([
-            'status' => !$institution->status
+        $institution->update($request->all());
+
+        return response()->json([
+            'status' => 'success'
         ]);
+    }
+
+    public function changeStatus(Institution $institution)
+    {
+        $institution->status = !$institution->status;
+        $institution->save();
 
         return response()->json([
             'status' => 'success',                
