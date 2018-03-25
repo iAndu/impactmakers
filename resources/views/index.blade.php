@@ -365,9 +365,9 @@
             });
 
             google.maps.event.addListener(marker, 'click', function() {
-                modalModel = marker.object;
-                photos = marker.photos;
-                rating = marker.rating;
+                modalModel = this.object;
+                photos = this.photos;
+                rating = this.rating;
 
                 nrPhotos = 3;
                 for(let i = 1 ; i <= nrPhotos ; i++) {
