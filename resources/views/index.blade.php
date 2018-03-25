@@ -726,6 +726,13 @@
                         <input id="create-owned" type="text" name="owner_name" placeholder="Optional. Owner name" />
                         <input id="create-short-desc" type="text" name="short_description" placeholder="Optional. Short description" />
                         <textarea name="description" placeholder="Optional. Description"></textarea>
+                        {{--  <label for="photos">Upload photos</label>  --}}
+                      <input
+                      type="file"
+                      id="photos"
+                      name="photos[]"
+                      value="{{ old('photos', "") }}" class="form-control"
+                      multiple>
                     </div><!-- col -->
 
                     <div class="col-md-6 fade-up">
@@ -740,11 +747,12 @@
                         <input id="create-ig" type="text" name="ig_page" placeholder="Optional. Instagram page" />
                         <input id="create-males" type="text" name="males" placeholder="Optional. Number of males" />
                         <input id="create-females" type="text" name="females" placeholder="Optional. Number of females" />
+                        <button style="width: 100%" class="btn btn-outlined btn-primary" type="submit"> Submit</button>
                     </div><!-- col -->
                 </div><!-- row -->
 
-                <div class="row">
-                    <div class="form-group col-md-6">
+                {{--  <div class="row">  --}}
+                    {{--  <div class="form-group col-md-6">
                       <label for="photos">Upload photos</label>
                       <input
                       type="file"
@@ -752,14 +760,12 @@
                       name="photos[]"
                       value="{{ old('photos', "") }}" class="form-control"
                       multiple>
-                    </div>
-                </div>
+                    </div>  --}}
+                {{--  </div>  --}}
 
-                <div class="row">
-                    <div class="col-md-12 col-lg-offset-3 col-lg-6">
-                        <button class="btn btn-outlined btn-primary" type="submit"> Submit</button>
-                    </div>
-                </div>
+                {{--  <div class="row">
+                    
+                </div>  --}}
             </form>
             <div class="gap"></div>
         </div>
