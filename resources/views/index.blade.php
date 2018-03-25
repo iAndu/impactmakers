@@ -143,57 +143,101 @@
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <form role="form" class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-sm-2" for="institution-name">Name</label>
-                            <div class="col-sm-10"><input id="institution-name" type="text" disabled name="name" placeholder="Name" /></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2" for="institution-type">Type</label>
-                            <div class="col-sm-10"><input id="institution-type" type="text" disabled name="type_id" placeholder="Name" /></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2" for="institution-address">Address</label>
-                            <div class="col-sm-10"><input id="institution-address" type="text" disabled name="address" placeholder="Name" /></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2" for="institution-website">Website</label>
-                            <div class="col-sm-10"><input id="institution-website" type="text" disabled name="name" placeholder="Name" /></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2" for="institution-email">Email</label>
-                            <div class="col-sm-10"><input id="institution-email" type="text" disabled name="name" placeholder="Name" /></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2" for="institution-phone">Phone number</label>
-                            <div class="col-sm-10"><input id="institution-phone" type="text" disabled name="name" placeholder="Name" /></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2">Ratio</label>
-                            <div class="col-sm-10"><input id="institution-ratio" type="text" disabled name="ratio" placeholder="Optional. Ratio" /></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-12" for="institution-description">Description</label>
-                            <div class="col-sm-6"><textarea id="institution-description" disabled class="form-control"></textarea></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2">Owner name</label>
-                            <div class="col-sm-4"><input id="institution-owner-name" type="text" disabled name="owner_name" placeholder="Optional. Owner name" /></div>
-                            <label class="col-sm-2">Short description</label>
-                            <div class="col-sm-4"><input id="institution-short-description" type="text" disabled name="short_description" placeholder="Optional. Short description" /></div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3"><input id="institution-fb-page" type="text" disabled name="fb_page" placeholder="Optional. Facebook page" /></div>
-                            <label class="col-sm-1"><i class="fa fa-facebook"></i></label>
-                            <div class="col-sm-3"><input id="institution-twitter-page" type="text" disabled name="fb_page" placeholder="Optional. Facebook page" /></div>
-                            <label class="col-sm-1"><i class="fa fa-twitter"></i></label>
-                            <div class="col-sm-3"><input id="institution-instagram-page" type="text" disabled name="twitter_page" placeholder="Optional. Twitter page" /></div>
-                            <label class="col-sm-1"><i class="fa fa-instagram"></i></label>
-                        </div>
-                        <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Name</label>
+                                <div class="col-sm-4">
+                                  <input type="text" name="name" placeholder="Name" class="form-control">
+                                </div>
 
-                        </div>
-                    </form>
+                                <label class="col-sm-2 control-label" for="textinput">Type</label>
+                                <div class="col-sm-4">
+                                    <select name="type_id" class="form-control">
+                                        @foreach ($institution_types as $institutionType)
+                                            <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                              </div>
+                    
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Address</label>
+                                <div class="col-sm-4">
+                                  <input type="text" name="address" placeholder="Address" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Owner</label>
+                                <div class="col-sm-4">
+                                  <input type="text" name="owner_name" placeholder="Owner name" class="form-control">
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Short desc.</label>
+                                <div class="col-sm-4">
+                                  <input type="text" name="short_description" placeholder="Short description" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Website</label>
+                                <div class="col-sm-4">
+                                  <input type="text" name="website" placeholder="Website" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Short desc.</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="short_description" placeholder="Short description" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Website</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="website" placeholder="Website" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Email</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="email" placeholder="Contact email" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Phone</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="phone_number" placeholder="Phone number" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Facebook</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="fb_page" placeholder="Facebook page" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Twitter</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="twitter_page" placeholder="Twitter page" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Instagram</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="ig_page" placeholder="Instagram page" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Ratio</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="ratio" placeholder="Women ratio" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea name="description" class="form-control" placeholder="Description"></textarea>
+                                </div>
+                            </div>
                     <hr>
                 </div>
             </div>
@@ -261,7 +305,7 @@
 
         //Create markers
         @foreach($institutions as $institution)
-            var marker = new google.maps.Marker({
+            let marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
             icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
@@ -270,6 +314,7 @@
               photos: {!! json_encode($photos) !!},
               rating: {!! json_encode($institution->computeRating()) !!}
           });
+          console.log(marker);
 
             markers.push(marker);
 
@@ -318,7 +363,7 @@
                 photos = marker.photos;
                 rating = marker.rating;
 
-                console.log(rating);
+                console.log(photos);
 
                 nrPhotos = 3;
                 for(let i = 1 ; i <= nrPhotos ; i++) {
