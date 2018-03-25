@@ -93,13 +93,7 @@
           left: 15px;
       }
 
-      #footer-wrapper {
-          padding-top: 0px;
-      }
 
-      #footer {
-          margin-top: 0px;
-      }
     </style>
 
     <!-- Modal -->
