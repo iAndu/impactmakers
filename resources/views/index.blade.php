@@ -92,6 +92,14 @@
       .fix_me {
           left: 15px;
       }
+
+      #footer-wrapper {
+          padding-top: 0px;
+      }
+
+      #footer {
+          margin-top: 0px;
+      }
     </style>
 
     <!-- Modal -->
@@ -466,7 +474,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="index.html"><h1><span class="pe-7s-gleam bounce-in"></span> IMPACT</h1></a>
+            <a class="navbar-brand" href="{{ route('index') }}"><h1><span class="pe-7s-gleam bounce-in"></span> IMPACT Makers</h1></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -1057,63 +1065,6 @@
 </div>
 
 <div id="footer-wrapper">
-    <section id="bottom" class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 about-us-widget">
-                    <h4>Global Coverage</h4>
-                    <p>Was drawing natural fat respect husband. An as noisy an offer drawn blush place. These tried for way joy wrote witty. In mr began music weeks after at begin.</p>
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <h4>Company</h4>
-                    <div>
-                        <ul class="arrow">
-                            <li><a href="#">Company Overview</a></li>
-                            <li><a href="#">Meet The Team</a></li>
-                            <li><a href="#">Our Awesome Partners</a></li>
-                            <li><a href="#">Our Services</a></li>
-                        </ul>
-                    </div>
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <h4>Latest Articles</h4>
-                    <div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="images/portfolio/folio01.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">Blog Post A</a></span>
-                                <small class="muted">Posted 14 April 2014</small>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="images/portfolio/folio02.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">Blog Post B</a></span>
-                                <small class="muted">Posted 14 April 2014</small>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <h4>Come See Us</h4>
-                    <address>
-                        <strong>Ace Towers</strong><br>
-                        New York Ave,<br>
-                        New York, 215648<br>
-                        <abbr title="Phone"><i class="fa fa-phone"></i></abbr> 546 840654 05
-                    </address>
-                </div> <!--/.col-md-3-->
-            </div>
-        </div>
-    </section><!--/#bottom-->
-
     <footer id="footer" class="">
         <div class="container">
             <div class="row">
