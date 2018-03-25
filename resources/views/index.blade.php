@@ -264,7 +264,7 @@
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
-            icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
+            icon: {url: "{{ ($institution->ratio >= 0.45 && $institution->ratio <= 0.55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
