@@ -13,6 +13,7 @@ class InstitutionRating extends Model
     
     protected $table = 'institutions_rating';
     protected $guarded = ['id'];
+    public $timestamps = false;
 
     public function institution()
     {

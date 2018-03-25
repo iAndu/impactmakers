@@ -30,6 +30,10 @@ class HomeController extends Controller
         $institutions = Institution::with('photos')->get();
         $institution_types = InstitutionType::all();
         $photos = Photo::all();
+
+        foreach ($institutions as $institution) {
+            $institution->rating = $institution->computeRating();
+        }
         
         if ($photos->count() > 9) {
             $photos = $photos->random(9);

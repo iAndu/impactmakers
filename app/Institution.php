@@ -14,6 +14,7 @@ class Institution extends Model
     use SoftDeletes;
 
     protected $guarded = ['id', 'deleted_at', 'status'];
+    public $timestamps = false;
 
     public function type()
     {
@@ -37,17 +38,17 @@ class Institution extends Model
 
     public function computeRating()
     {
-        $ratings = $this->ratings();
+        $ratings = $this->ratings;
         $sum = 0;
         $count = 0;
-        foreach ($ratings as $key => $value)
+        foreach ($ratings as $rating)
         {
-            $sum = $sum + $value;
+            $sum = $sum + $rating->rating;
             $count++;
         }
 
         if($count)
-            return $ratings / $count;
+            return $sum / $count;
         else
             return 0;
     }

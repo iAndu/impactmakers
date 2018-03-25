@@ -99,36 +99,49 @@
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h4 class="modal-title">Details</h4>
-
-                    <div class="gap"></div>
-                    <div class="container" style="width: 100%">
+              
+              <div class="gap"></div>
+              <div class="container" style="width: 100%">
                         <div class="row">
                             <div class='col-md-offset-2 col-md-8 fade-up'>
                                 <div class="carousel slide" data-ride="carousel" id="quote-carousel">
                                     <!-- Carousel Slides / Quotes -->
                                     <div class="carousel-inner">
                                         @foreach ($photos->chunk(3) as $collection)
-                                            <div class="item {{ $loop->first ? 'active' : '' }}">
+                                        <div class="item {{ $loop->first ? 'active' : '' }}">
                                                 <div class="row">
                                                     @foreach ($collection as $photo)
-                                                        <div class="col-sm-4 text-center" style="padding: 2px;">
-                                                            <img src="{{ $photo->path }}" class="img-responsive" style="width: 100%;height:200px;">
-                                                        </div>
+                                                    <div class="col-sm-4 text-center" style="padding: 2px;">
+                                                        <img src="{{ $photo->path }}" class="img-responsive" style="width: 100%;height:200px;">
+                                                    </div>
                                                     @endforeach
                                                 </div>
                                             </div>
-                                        @endforeach
+                                            @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                </div>
+                <div class="modal-body">
+                    <div class="row text-center">
+                        <div class="col-md-6 rating">
+                            <i class="fa fa-star-o fa-2x"></i>
+                            <i class="fa fa-star-o fa-2x"></i>
+                            <i class="fa fa-star-o fa-2x"></i>
+                            <i class="fa fa-star-o fa-2x"></i>
+                            <i class="fa fa-star-o fa-2x"></i>
+                        </div>
+                    </div>
 
-            </div>
-            <div class="modal-body">
+                    <hr/>
+
                     <form class="form-horizontal" role="form">
-                            <fieldset>
-
+                        
+                        <fieldset>
+                            
                               <!-- Text input-->
                               <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Name</label>
@@ -227,7 +240,8 @@
                             </div>
                     
                             </fieldset>
-                          </form>
+                        </form>
+                    
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -362,7 +376,45 @@
                     $element.val(modalModel[$element.attr('name')]);
                 });
 
+                let $rating = $('#myModal').find('div.rating');
+                $rating.data('id', modalModel.id);
+                $rating.html('');
+                for (let i = 0; i < Math.floor(modalModel.rating); ++i) {
+                    $rating.append('<a href="#" data-value=' + (i + 1) + ' class="rate-institution">' +
+                        '<i class="fa fa-star fa-2x"></i></a>');
+                }
 
+                for (let i = Math.floor(modalModel.rating); i < 5; ++i) {
+                    $rating.append('<a href="#" data-value=' + (i + 1) + ' class="rate-institution">' +
+                            '<i class="fa fa-star-o fa-2x"></i></a>');
+                }
+
+                $('#myModal a.rate-institution').on('click', function (e) {
+                    e.preventDefault();
+                    let route = "{{ route('institutions.rate', 'id') }}";
+                    let $this = $(this);
+                    let id = $this.closest('div.rating').data('id');
+                        
+                    $.ajax({
+                        url: route.replace('id', id),
+                        method: 'post',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            rating: $this.data('value')
+                        },
+                        success: function (resp) {
+                            $this.closest('div.rating').find('i.fa').each(function (index, element) {
+                                if (index < $this.data('value')) {
+                                    $(element).removeClass('fa-star-o').addClass('fa-star');
+                                } else {
+                                    $(element).removeClass('fa-star').addClass('fa-star-o');                                    
+                                }
+                            });
+                        }
+                    })
+                })
 
                 $("#myModal").modal();
             });
@@ -1092,6 +1144,8 @@
     //         data: formData
     //     });
     // })
+
+    
 </script>
 
 
