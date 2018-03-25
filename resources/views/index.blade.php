@@ -488,8 +488,9 @@
                 @if (!Auth::user())
                     <li><a href="{{ route('login') }}">Login</a></li>
                 @else
+                    <li><a id="admin_panel" href="/institutions">Admin panel</a></li>
                     <li><a id="logout" href="#">Logout</a></li>
-                @endif               
+                @endif
             </ul>
         </div>
     </div>
@@ -914,14 +915,14 @@
                     <div class="center bounce-in">
                         <span class="stat-icon"><span class="pe-7s-graph1 bounce-in"></span></span>
                         <h1><span class="counter">99999999</span></h1>
-                        <h3>HUGE PROFIT</h3>
+                        <h3>HUGE IMPACT</h3>
                     </div>
                 </div>
                 <div class="col-md-3 col-xs-6">
                     <div class="center bounce-in">
                         <span class="stat-icon"><span class="pe-7s-box2 bounce-in"></span></span>
                         <h1><span class="counter">54875</span></h1>
-                        <h3>THINGS IN BOXES</h3>
+                        <h3>UNBOXED ROBOTS</h3>
                     </div>
                 </div>
             </div>
