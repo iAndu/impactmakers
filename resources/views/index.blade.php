@@ -628,6 +628,7 @@
                 {{--  <li><a href="#contact-us" class="smoothScroll">Contact</a></li>  --}}
                 @if (!Auth::user())
                     <li><a href="{{ route('login') }}">Login</a></li>
+                    <li><a href="{{ route('register') }}">Register</a></li>
                 @else
                     <li><a id="admin_panel" href="{{ route('institutions.index') }}">Admin panel</a></li>
                     <li><a id="logout" href="#">Logout</a></li>
