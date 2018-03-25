@@ -55,7 +55,7 @@ class InstitutionTypeController extends Controller
             $filename = md5(uniqid('', true)).'.'.$icon->extension();
 
             Storage::disk($disk)->put(config('paths.institution_type_icons') . $filename, $file_content);
-
+            
             $icon = [
                 'name'  => $request->marker_name,
                 'path'  => '/storage/' . config('paths.institution_type_icons') . $filename
