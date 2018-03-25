@@ -41,6 +41,7 @@
             max-height: 150px;
         }
       #mapwrapper {
+          position: relative;
           height: 700px;
       }
 
@@ -95,6 +96,18 @@
 
       .fix_me {
           left: 15px;
+      }
+
+      span.select2 {
+          position: absolute;
+          width: 200px;
+          z-index: 1;
+          top: 10px;
+          left: 120px;
+      }
+
+      li.select2-selection__choice {
+          display: none;
       }
 
       #footer-wrapper {
@@ -679,7 +692,6 @@
 
     <section id="mapView" class="white">
         <div id="mapwrapper">
-            <p style="margin-bottom:10px"> <b> Filter by institution type </b> </p>
             <select class="js-example-basic-multiple" multiple="multiple" style="position:relative; z-index: 100; bottom: -200px" id="type" onchange="filterMarkers();">
                 @foreach($institution_types as $type)
                     <option value="{{ $type->id }}">{{ $type->name }}</option>
