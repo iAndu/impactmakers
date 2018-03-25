@@ -177,7 +177,7 @@
       }
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI2EpvQc_HdFPc12TQTigdfE61gdjkEM8  &callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI2EpvQc_HdFPc12TQTigdfE61gdjkEM8&libraries=places&callback=initMap">
     </script>
 </head><!--/head-->
 <body>
@@ -395,7 +395,9 @@
                 <p>Tell us about a robotic-related place you know.</p>
             </div>
             <div class="gap"></div>
-            <form method="post" action="{{ route('institutions.store') }}" id="store-institution">            
+            <form method="post" action="{{ route('institutions.store') }}" id="store-institution"> 
+                @csrf           
+
                 <div class="row">
                     <div class="col-md-6 fade-up">
                         <input type="text" name="name" placeholder="Name" />
@@ -404,7 +406,17 @@
                                 <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
                             @endforeach
                         </select>
-                        <input type="text" name="address" placeholder="Address" />
+                        <!-- <input type="text" name="address" placeholder="Address" /> -->
+                        <input id="address" name="address" type="text"
+                                placeholder="Address">
+                        <input type="hidden" name="lat" id="lat">
+                        <input type="hidden" name="lng" id="lng">
+                        <!-- <div id="infowindow-content">
+                            <img src="" width="16" height="16" id="place-icon">
+                            <span id="place-name"  class="title"></span><br>
+                            <span id="place-address"></span>
+                        </div> -->
+
                         <input type="text" name="owner_name" placeholder="Optional. Owner name" />
                         <input type="text" name="short_description" placeholder="Optional. Short description" />
                         <textarea name="description" placeholder="Optional. Description"></textarea>
@@ -426,7 +438,7 @@
 
                 <div class="row">
                     <div class="col-md-12 col-lg-offset-3 col-lg-6">
-                        <input class="btn btn-outlined btn-primary" type="submit" name="submit" value="Submit" />
+                        <button class="btn btn-outlined btn-primary" type="submit" name="submit"> Submit</button>
                     </div>
                 </div>                        
             </form>            
@@ -840,21 +852,59 @@
         });
     });
 
-    $('#store-institution').on('submit', function (e) {
-        e.preventDefault();
+    // $('#store-institution').on('submit', function (e) {
+    //     e.preventDefault();
 
-        let formData = $(this).serialize();
+    //     let formData = $(this).serialize();
 
-        $.ajax({
-            url: "{{ route('institutions.store') }}",
-            method: 'post',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: formData
+    //     $.ajax({
+    //         url: "{{ route('institutions.store') }}",
+    //         method: 'post',
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         },
+    //         data: formData
+    //     });
+    // })
+
+      function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+
+          center: {lat: -33.8688, lng: 151.2195},
+
+          zoom: 13
+
         });
-    })
+
+        var input = document.getElementById('address');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+     autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+          map: map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            var lat = place.geometry.location.lat();
+            var lng = place.geometry.location.lng();
+
+            $('input[name="lat"]').attr('value',lat);
+            $('input[name="lng"]').attr('value',lng);
+        
+        });
+
+      }
 </script>
+
+
 
 </body>
 </html>
