@@ -12,6 +12,7 @@ class Feedback extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'feedbacks';
     protected $guarded = ['id'];
 
     public function user()

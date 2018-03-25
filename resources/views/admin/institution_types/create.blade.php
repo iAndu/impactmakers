@@ -45,7 +45,7 @@
                 <option value="">-</option>
                 @foreach ($icons as $icon)
                     <option value="{{ $icon->id }}"
-                   data-image="{{ "/storage/" . $icon->path }}">  
+                   data-image="{{ $icon->path }}">  
                     {{ $icon->name }}
                     </option>
                 @endforeach

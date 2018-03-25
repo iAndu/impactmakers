@@ -18,7 +18,7 @@ class FeedbacksController extends Controller
                 $feedback->negativeRatings()->count();
         }
 
-        $feedbacks->orderByDesc('rating');
+        $feedbacks->sortByDesc('rating');
 
         return response()->json([
             'feedbacks' => $feedbacks

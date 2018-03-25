@@ -30,6 +30,8 @@
     <link rel="apple-touch-icon" sizes="114x114" href="../../public/images/ico/apple-touch-icon-114x114.png">
     <link rel="apple-touch-icon" sizes="72x72" href="../../public/images/ico/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" href="../../public/images/ico/apple-touch-icon-57x57.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
     <link rel="stylesheet" href="{{ URL::asset('css/starrr.css') }}">
     <style type='text/css'>
@@ -55,6 +57,10 @@
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
+
+        .item-inner img {
+            max-height: 150px;
+        }
       #mapwrapper {
           height: 700px;
       }
@@ -291,7 +297,11 @@
         });
     </script>
     <script>
+      $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+      });
       var map;
+      var markers = [];
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -300,18 +310,44 @@
           mapTypeId: 'roadmap'
         });
 
+       filterMarkers = function() {
+            if($('#type').val())
+            {
+                var valori = $('#type').val().toString().split(",");
+                for(var i = 0; i < valori.length; i++)
+                    valori[i] = parseInt(valori[i]);
+
+                for (i = 0; i < markers.length; i++) {
+
+                    if($.inArray(JSON.parse(markers[i].category.replace(/&quot;/g,'"')).id, valori) != -1)
+                        markers[i].setVisible(true);
+                    else
+                        markers[i].setVisible(false);
+                }
+            }
+            else
+            {
+                for (i = 0; i < markers.length; i++) {
+                    markers[i].setVisible(true);
+                }
+            }
+        }
+
         var open_infowindow;
 
         //Create markers
         @foreach($institutions as $institution)
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
+            category: '{{ $institution->type->toJson() }}',
             icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
               rating: {!! json_encode($institution->computeRating()) !!}
           });
+
+            markers.push(marker);
 
             google.maps.event.addListener(marker, 'mouseover', function() {
                     //var aux = Object.assign({}, marker);  
@@ -392,10 +428,35 @@
 
           
         @endforeach
+
+
+        var input = document.getElementById('address');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+          map: map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            var lat = place.geometry.location.lat();
+            var lng = place.geometry.location.lng();
+
+            $('input[name="lat"]').attr('value',lat);
+            $('input[name="lng"]').attr('value',lng);
+        
+        });
       }
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI2EpvQc_HdFPc12TQTigdfE61gdjkEM8  &callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI2EpvQc_HdFPc12TQTigdfE61gdjkEM8&libraries=places&callback=initMap">
     </script>
 </head><!--/head-->
 <body>
@@ -600,6 +661,12 @@
 
     <section id="mapView" class="white">
         <div id="mapwrapper">
+            <select class="js-example-basic-multiple" multiple="multiple" style="position:relative; z-index: 100; bottom: -200px" id="type" onchange="filterMarkers();">
+                <option value= "">Please select category</option>
+                @foreach($institution_types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                @endforeach
+            </select>
             <div id="map"></div>
         </div>
     </section>
@@ -613,16 +680,28 @@
                 <p>Tell us about a robotic-related place you know.</p>
             </div>
             <div class="gap"></div>
-            <form method="post" action="{{ route('institutions.store') }}" id="store-institution">            
+            <form method="post" action="{{ route('institutions.store') }}" id="store-institution"> 
+                @csrf           
+
                 <div class="row">
                     <div class="col-md-6 fade-up">
                         <input type="text" name="name" placeholder="Name" />
                         <select name="type_id">
-                            @foreach ($institutionTypes as $institutionType)
+                            @foreach ($institution_types as $institutionType)
                                 <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
                             @endforeach
                         </select>
-                        <input type="text" name="address" placeholder="Address" />
+                        <!-- <input type="text" name="address" placeholder="Address" /> -->
+                        <input id="address" name="address" type="text"
+                                placeholder="Address">
+                        <input type="hidden" name="lat" id="lat">
+                        <input type="hidden" name="lng" id="lng">
+                        <!-- <div id="infowindow-content">
+                            <img src="" width="16" height="16" id="place-icon">
+                            <span id="place-name"  class="title"></span><br>
+                            <span id="place-address"></span>
+                        </div> -->
+
                         <input type="text" name="owner_name" placeholder="Optional. Owner name" />
                         <input type="text" name="short_description" placeholder="Optional. Short description" />
                         <textarea name="description" placeholder="Optional. Description"></textarea>
@@ -639,9 +718,14 @@
                         <input type="text" name="ig_page" placeholder="Optional. Instagram page" />
                         <input type="text" name="males" placeholder="Optional. Number of males" />
                         <input type="text" name="females" placeholder="Optional. Number of females" />
-                        <input class="btn btn-outlined btn-primary" type="submit" name="submit" value="Submit" />
                     </div><!-- col -->
                 </div><!-- row -->
+
+                <div class="row">
+                    <div class="col-md-12 col-lg-offset-3 col-lg-6">
+                        <button class="btn btn-outlined btn-primary" type="submit"> Submit</button>
+                    </div>
+                </div>                        
             </form>            
             <div class="gap"></div>
         </div>
@@ -1085,12 +1169,24 @@
         });
     });
 
-    $('#store-institution').on('submit', function (e) {
-        e.preventDefault();
+    // $('#store-institution').on('submit', function (e) {
+    //     e.preventDefault();
 
-        
-    })
+    //     let formData = $(this).serialize();
+
+    //     $.ajax({
+    //         url: "{{ route('institutions.store') }}",
+    //         method: 'post',
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         },
+    //         data: formData
+    //     });
+    // })
+
 </script>
+
+
 
 </body>
 </html>

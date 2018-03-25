@@ -2,5 +2,5 @@
 
 
 return [
-	'institution_type_icons'	=> 'InstitutionTypes/Icons/',
+	'institution_type_icons'	=> 'icons/',
 ];
