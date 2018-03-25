@@ -205,6 +205,31 @@
 
           
         @endforeach
+
+
+        var input = document.getElementById('address');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+          map: map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            var lat = place.geometry.location.lat();
+            var lng = place.geometry.location.lng();
+
+            $('input[name="lat"]').attr('value',lat);
+            $('input[name="lng"]').attr('value',lng);
+        
+        });
       }
     </script>
     <script async defer
@@ -475,7 +500,7 @@
 
                 <div class="row">
                     <div class="col-md-12 col-lg-offset-3 col-lg-6">
-                        <button class="btn btn-outlined btn-primary" type="submit" name="submit"> Submit</button>
+                        <button class="btn btn-outlined btn-primary" type="submit"> Submit</button>
                     </div>
                 </div>                        
             </form>            
@@ -904,41 +929,6 @@
     //     });
     // })
 
-      function initMap() {
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-
-          center: {lat: -33.8688, lng: 151.2195},
-
-          zoom: 13
-
-        });
-
-        var input = document.getElementById('address');
-
-        var autocomplete = new google.maps.places.Autocomplete(input);
-
-     autocomplete.bindTo('bounds', map);
-
-        var infowindow = new google.maps.InfoWindow();
-        var infowindowContent = document.getElementById('infowindow-content');
-        infowindow.setContent(infowindowContent);
-        var marker = new google.maps.Marker({
-          map: map,
-          anchorPoint: new google.maps.Point(0, -29)
-        });
-
-        autocomplete.addListener('place_changed', function() {
-            var place = autocomplete.getPlace();
-            var lat = place.geometry.location.lat();
-            var lng = place.geometry.location.lng();
-
-            $('input[name="lat"]').attr('value',lat);
-            $('input[name="lng"]').attr('value',lng);
-        
-        });
-
-      }
 </script>
 
 

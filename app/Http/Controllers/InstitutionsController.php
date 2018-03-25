@@ -44,11 +44,12 @@ class InstitutionsController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $request->merge([
-            'ratio' => $request->females / ($request->females + $request->males) * 100
+            'ratio' => $request->females / max(0.000001, ($request->females + $request->males)) * 100
         ]);
-        $institution = Institution::create($request->all());
+        $request = $request->except(['males', 'females', 'submit']);
+        $institution = Institution::create($request);
 
         return redirect('/');
         // return response()->json([
