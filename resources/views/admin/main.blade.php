@@ -43,7 +43,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>I</b>M</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>IMPACT</b>MAKERS</span>
+      <span class="logo-lg"><b>E-</b>CIVIC</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
