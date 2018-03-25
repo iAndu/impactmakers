@@ -171,6 +171,7 @@
 
       .active {
           color: #2EBDD1;
+
       }
       @media screen and (max-width: 800px) {
         .modal-dialog {
