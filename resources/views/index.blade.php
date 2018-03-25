@@ -338,7 +338,8 @@
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
-            icon: {url: "{{ ($institution->ratio >= 45 && $institution->ratio <= 55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
+            // icon: {url: "{{ ($institution->ratio >= 45 && $institution->ratio <= 55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
+            icon: {url: " {{$institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
@@ -346,7 +347,17 @@
               rating: {!! json_encode($institution->computeRating()) !!}
           });
 
+            
             markers.push(marker);
+            @if($institution->ratio >= 45 && $institution->ratio<= 55) 
+            var marker2 = new google.maps.Marker({
+              position: new google.maps.LatLng({{ $institution->lat}} , {{ $institution->lng }}),
+              icon: {url: "/icons/badge.png"},
+              map: map,
+            });
+
+              // markers.push(marker2);
+            @endif
 
             google.maps.event.addListener(marker, 'mouseover', function() {
                     //var aux = Object.assign({}, marker);  
