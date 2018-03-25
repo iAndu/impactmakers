@@ -410,6 +410,7 @@
                             rating: $this.data('value')
                         },
                         success: function (resp) {
+                            marker.object = resp.institution;
                             $this.closest('div.rating').find('i.fa').each(function (index, element) {
                                 if (index < $this.data('value')) {
                                     $(element).removeClass('fa-star-o').addClass('fa-star');
