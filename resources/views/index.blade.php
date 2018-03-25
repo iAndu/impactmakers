@@ -72,11 +72,11 @@
           border: none;
       }
 
-      #myModal > div > div > div.modal-body > form > fieldset > div.form-group > label.control-label {
+      div > div > div.modal-body > form > fieldset > div.form-group > label.control-label {
           display: initial; !important
       }
 
-      #myModal > div > div > div.modal-body > form > fieldset > div.form-group > div > input.form-control {
+      div > div > div.modal-body > form > fieldset > div.form-group > div > input.form-control {
           width: 100%;
       }
 
@@ -272,6 +272,92 @@
                     
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="show-events">Show events</button>                
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="eventsModal" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Upcoming event</h4>
+              
+              <div class="gap"></div>
+              <div class="container" style="width: 100%">
+                        <div class="row">
+                            <div class='col-md-offset-2 col-md-8 fade-up'>
+                                <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+                                    <!-- Carousel Slides / Quotes -->
+                                    <div class="carousel-inner">
+                                        @foreach ($photos->chunk(3) as $collection)
+                                        <div class="item {{ $loop->first ? 'active' : '' }}">
+                                                <div class="row">
+                                                    @foreach ($collection as $photo)
+                                                    <div class="col-sm-4 text-center" style="padding: 2px;">
+                                                        <img src="{{ $photo->path }}" class="img-responsive" style="width: 100%;height:200px;">
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        
+                        <fieldset>
+                            
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Name</label>
+                                <div class="col-sm-4">
+                                  <input type="text" disabled name="name" placeholder="Name" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Address</label>
+                                <div class="col-sm-4">
+                                  <input type="text" disabled name="address" placeholder="Address" class="form-control">
+                                </div>
+                              </div>
+                    
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Event name</label>
+                                <div class="col-sm-4">
+                                  <input type="text" disabled name="event_name" placeholder="Event name" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Data</label>
+                                <div class="col-sm-4">
+                                  <input type="data" disabled name="event_data" placeholder="Data" class="form-control">
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea disabled name="event_description" class="form-control" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                    
+                            </fieldset>
+                        </form>
+                    
+            </div>
+            <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
@@ -297,6 +383,11 @@
     <script>
       $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
+            $('#show-events').on('click', function () {
+                setTimeout(function () {
+                    $('#eventsModal').modal('show');
+                }, 1000);
+            });
       });
       var map;
       var markers = [];
@@ -404,6 +495,19 @@
                     let $element = $(element);
                     $element.val(modalModel[$element.attr('name')]);
                 });
+
+                let $form = $('#eventsModal').find('form');
+
+                $('#show-events').hide();
+                if (modalModel.next_events.length) {
+                    $('#show-events').show();
+                    let event = modalModel.next_events[0];
+                    $form.find('input[name="name"]').val(modalModel.name);
+                    $form.find('input[name="address"]').val(modalModel.address);
+                    $form.find('input[name="event_name"]').val(event.name);
+                    $form.find('input[name="event_data"]').val(event.data);
+                    $form.find('textarea[name="event_description"]').val(event.description);
+                }
 
                 let $label = $('input[name="ratio"]').closest('div.form-group').find('label').last();
 

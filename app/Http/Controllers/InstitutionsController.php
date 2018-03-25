@@ -126,7 +126,7 @@ class InstitutionsController extends Controller
 
                 return response()->json([
                     'status' => 'success',
-                    'institution' => $institution->load('photos')
+                    'institution' => $institution->load('photos', 'nextEvents')
                 ]);
             }
         }
