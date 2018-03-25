@@ -123,6 +123,10 @@
           width: 90%;
         }
       }
+
+      .is-warning {
+        background-color: #ffc107;
+      }
     </style>
 
     <!-- Modal -->
@@ -249,7 +253,8 @@
                                     <input type="text" disabled name="ig_page" placeholder="Instagram page" class="form-control">
                                 </div>
 
-                                <label class="col-sm-2 control-label" for="textinput">Ratio</label>
+                                <label class="col-sm-2 control-label" for="textinput">Ratio 
+                                </label>
                                 <div class="col-sm-4">
                                     <input type="text" disabled name="ratio" placeholder="Women ratio" class="form-control">
                                 </div>
@@ -333,7 +338,7 @@
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
-            icon: {url: "{{ ($institution->ratio >= 45 && $institution->ratio <= 55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
+            icon: {url: "{{ ($institution->ratio >= 45 && $institution->ratio <= 55) ? '/icons/school-badge.png' : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
@@ -399,6 +404,16 @@
                     let $element = $(element);
                     $element.val(modalModel[$element.attr('name')]);
                 });
+
+                let $label = $('input[name="ratio"]').closest('div.form-group').find('label').last();
+
+                $label.html('Ratio');
+
+                if(modalModel.ratio>=45 && modalModel.ratio<=55) {
+                  console.log(modalModel.ratio);
+                  
+                  $label.html($label.html() + ' <span class="badge is-warning"> <i class="fa fa-thumbs-up"> </i> balanced</span> ');
+                }
 
                 let $rating = $('#myModal').find('div.rating');
                 $rating.data('id', modalModel.id);
