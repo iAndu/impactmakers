@@ -58,4 +58,9 @@ class Institution extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    public function nextEvents()
+    {
+        return $this->events()->orderBy('data', 'desc');
+    }
 }
