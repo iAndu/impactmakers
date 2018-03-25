@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">    
     <title>Hackaton</title>
-    <link href="{{ URL::asset('css/impact/bootstrap.min.css') }}" rel="stylesheet">
+     <link href="{{ URL::asset('css/impact/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/pe-icons.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/prettyPhoto.css') }}" rel="stylesheet">
@@ -52,7 +52,7 @@
         height: 100%;
       }
 
-      form#create input, form#create select {
+      form input, form select {
         width: 100%;
         padding: 10px 5px;
         margin-bottom: 15px;
@@ -61,7 +61,7 @@
         border: none;
       }
 
-      form#create textarea {
+      form textarea {
           width: 100%;
           min-height: 150px;
           padding: 10px 5px;
@@ -71,17 +71,18 @@
           border: none;
       }
 
-      .modal-body .container {
-          max-width: 100%;
-
-      }
-
       #myModal > div > div > div.modal-body > form > fieldset > div.form-group > label.control-label {
           display: initial; !important
       }
 
       #myModal > div > div > div.modal-body > form > fieldset > div.form-group > div > input.form-control {
           width: 100%;
+      }
+
+
+      .modal-body .container {
+          max-width: 100%;
+
       }
 
       .col-centered {
@@ -93,7 +94,13 @@
           left: 15px;
       }
 
+      #footer-wrapper {
+          padding-top: 0;
+      }
 
+      #footer {
+          margin-top: 0;
+      }
     </style>
 
     <!-- Modal -->
@@ -671,6 +678,7 @@
         </div>
     </section>
 
+    
     <section id="create" class="white">
         <div class="container">
             <div class="gap"></div>
@@ -680,8 +688,8 @@
                 <p>Tell us about a robotic-related place you know.</p>
             </div>
             <div class="gap"></div>
-            <form method="post" action="{{ route('institutions.store') }}" id="store-institution" enctype="multipart/form-data"> 
-                @csrf           
+            <form method="post" action="{{ route('institutions.store') }}" id="store-institution" enctype="multipart/form-data">
+                @csrf
 
                 <div class="row">
                     <div class="col-md-6 fade-up">
@@ -740,8 +748,8 @@
                     <div class="col-md-12 col-lg-offset-3 col-lg-6">
                         <button class="btn btn-outlined btn-primary" type="submit"> Submit</button>
                     </div>
-                </div>                        
-            </form>            
+                </div>
+            </form>
             <div class="gap"></div>
         </div>
     </section>
