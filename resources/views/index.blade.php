@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">    
     <title>Hackaton</title>
-    <link href="{{ URL::asset('css/impact/bootstrap.min.css') }}" rel="stylesheet">
+     <link href="{{ URL::asset('css/impact/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/pe-icons.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('css/impact/prettyPhoto.css') }}" rel="stylesheet">
@@ -52,7 +52,7 @@
         height: 100%;
       }
 
-      form#create input, form#create select {
+      form input, form select {
         width: 100%;
         padding: 10px 5px;
         margin-bottom: 15px;
@@ -61,7 +61,7 @@
         border: none;
       }
 
-      form#create textarea {
+      form textarea {
           width: 100%;
           min-height: 150px;
           padding: 10px 5px;
@@ -69,11 +69,6 @@
           background-color: rgba(0, 0, 0, 0.1);
           color: #202020;
           border: none;
-      }
-
-      .modal-body .container {
-          max-width: 100%;
-
       }
 
       #myModal > div > div > div.modal-body > form > fieldset > div.form-group > label.control-label {
@@ -84,6 +79,15 @@
           width: 100%;
       }
 
+      .modal-dialog {
+        width: 60%;
+      }
+
+      .modal-body .container {
+          max-width: 100%;
+
+      }
+
       .col-centered {
           float: none;
           margin: 0 auto;
@@ -91,6 +95,20 @@
 
       .fix_me {
           left: 15px;
+      }
+
+      #footer-wrapper {
+          padding-top: 0;
+      }
+
+      #footer {
+          margin-top: 0;
+      }
+
+      @media screen and (max-width: 800px) {
+        .modal-dialog {
+          width: 90%;
+        }
       }
     </style>
 
@@ -365,9 +383,9 @@
             });
 
             google.maps.event.addListener(marker, 'click', function() {
-                modalModel = marker.object;
-                photos = marker.photos;
-                rating = marker.rating;
+                modalModel = this.object;
+                photos = this.photos;
+                rating = this.rating;
 
                 nrPhotos = 3;
                 for(let i = 1 ; i <= nrPhotos ; i++) {
@@ -467,7 +485,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="index.html"><h1><span class="pe-7s-gleam bounce-in"></span> IMPACT</h1></a>
+            <a class="navbar-brand" href="{{ route('index') }}"><h1><span class="pe-7s-gleam bounce-in"></span> IMPACT Makers</h1></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -480,8 +498,9 @@
                 @if (!Auth::user())
                     <li><a href="{{ route('login') }}">Login</a></li>
                 @else
+                    <li><a id="admin_panel" href="/institutions">Admin panel</a></li>
                     <li><a id="logout" href="#">Logout</a></li>
-                @endif               
+                @endif
             </ul>
         </div>
     </div>
@@ -670,6 +689,7 @@
         </div>
     </section>
 
+    
     <section id="create" class="white">
         <div class="container">
             <div class="gap"></div>
@@ -679,8 +699,8 @@
                 <p>Tell us about a robotic-related place you know.</p>
             </div>
             <div class="gap"></div>
-            <form method="post" action="{{ route('institutions.store') }}" id="store-institution" enctype="multipart/form-data"> 
-                @csrf           
+            <form method="post" action="{{ route('institutions.store') }}" id="store-institution" enctype="multipart/form-data">
+                @csrf
 
                 <div class="row">
                     <div class="col-md-6 fade-up">
@@ -739,8 +759,8 @@
                     <div class="col-md-12 col-lg-offset-3 col-lg-6">
                         <button class="btn btn-outlined btn-primary" type="submit"> Submit</button>
                     </div>
-                </div>                        
-            </form>            
+                </div>
+            </form>
             <div class="gap"></div>
         </div>
     </section>
@@ -905,14 +925,14 @@
                     <div class="center bounce-in">
                         <span class="stat-icon"><span class="pe-7s-graph1 bounce-in"></span></span>
                         <h1><span class="counter">99999999</span></h1>
-                        <h3>HUGE PROFIT</h3>
+                        <h3>HUGE IMPACT</h3>
                     </div>
                 </div>
                 <div class="col-md-3 col-xs-6">
                     <div class="center bounce-in">
                         <span class="stat-icon"><span class="pe-7s-box2 bounce-in"></span></span>
                         <h1><span class="counter">54875</span></h1>
-                        <h3>THINGS IN BOXES</h3>
+                        <h3>UNBOXED ROBOTS</h3>
                     </div>
                 </div>
             </div>
@@ -1058,63 +1078,6 @@
 </div>
 
 <div id="footer-wrapper">
-    <section id="bottom" class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 about-us-widget">
-                    <h4>Global Coverage</h4>
-                    <p>Was drawing natural fat respect husband. An as noisy an offer drawn blush place. These tried for way joy wrote witty. In mr began music weeks after at begin.</p>
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <h4>Company</h4>
-                    <div>
-                        <ul class="arrow">
-                            <li><a href="#">Company Overview</a></li>
-                            <li><a href="#">Meet The Team</a></li>
-                            <li><a href="#">Our Awesome Partners</a></li>
-                            <li><a href="#">Our Services</a></li>
-                        </ul>
-                    </div>
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <h4>Latest Articles</h4>
-                    <div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="images/portfolio/folio01.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">Blog Post A</a></span>
-                                <small class="muted">Posted 14 April 2014</small>
-                            </div>
-                        </div>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="widget-img" src="images/portfolio/folio02.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="media-heading"><a href="#">Blog Post B</a></span>
-                                <small class="muted">Posted 14 April 2014</small>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <h4>Come See Us</h4>
-                    <address>
-                        <strong>Ace Towers</strong><br>
-                        New York Ave,<br>
-                        New York, 215648<br>
-                        <abbr title="Phone"><i class="fa fa-phone"></i></abbr> 546 840654 05
-                    </address>
-                </div> <!--/.col-md-3-->
-            </div>
-        </div>
-    </section><!--/#bottom-->
-
     <footer id="footer" class="">
         <div class="container">
             <div class="row">
