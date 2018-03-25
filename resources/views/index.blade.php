@@ -149,7 +149,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row text-center">
-                        <div class="col-md-6 rating">
+                        <div class="col-md-offset-3 col-md-6 rating">
                             <i class="fa fa-star-o fa-2x"></i>
                             <i class="fa fa-star-o fa-2x"></i>
                             <i class="fa fa-star-o fa-2x"></i>
@@ -485,7 +485,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="{{ route('index') }}"><h1><span class="pe-7s-gleam bounce-in"></span> IMPACT Makers</h1></a>
+            <a class="navbar-brand" href="{{ route('index') }}"><h1><span class="pe-7s-gleam bounce-in"></span> E-CIVIS</h1></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
