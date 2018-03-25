@@ -171,7 +171,7 @@
 
       .active {
           color: #2EBDD1;
-
+      }
       @media screen and (max-width: 800px) {
         .modal-dialog {
           width: 90%;
@@ -687,10 +687,10 @@
                     $('#feedback-3').parent().parent().parent().remove();
                 }
 
-                let auxi = 0;
+                let auxi = 1;
 
                 $(feedbacks).each(function(i) {
-                    auxi = i + 1;
+                    auxi++;
                     if(i < 3) {
                         $('#feedback-' + (i + 1)).text(this.feedback);
                         $aux = this;
