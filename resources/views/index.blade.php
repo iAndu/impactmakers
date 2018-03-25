@@ -101,6 +101,61 @@
       #footer {
           margin-top: 0;
       }
+
+      .thumbnail {
+          padding:0px;
+      }
+      .panel {
+          position:relative;
+      }
+      .panel>.panel-heading:after,.panel>.panel-heading:before{
+          position:absolute;
+          top:11px;left:-16px;
+          right:100%;
+          width:0;
+          height:0;
+          display:block;
+          content:" ";
+          border-color:transparent;
+          border-style:solid solid outset;
+          pointer-events:none;
+      }
+      .panel>.panel-heading:after{
+          border-width:7px;
+          border-right-color:#f7f7f7;
+          margin-top:1px;
+          margin-left:2px;
+      }
+      .panel>.panel-heading:before{
+          border-right-color:#ddd;
+          border-width:8px;
+      }
+
+      .rating1 {
+          display: inline-block;
+          width: 100%;
+          margin-top: 40px;
+          padding-top: 40px;
+          text-align: center;
+      }
+
+      .like,
+      .dislike {
+          display: inline-block;
+          cursor: pointer;
+          margin: 10px;
+      }
+
+      .dislike:hover,
+      .like:hover {
+          color: #2EBDD1;
+          transition: all .2s ease-in-out;
+          transform: scale(1.1);
+      }
+
+      .active {
+          color: #2EBDD1;
+      }
     </style>
 
     <!-- Modal -->
@@ -251,7 +306,63 @@
                                     <textarea disabled name="description" class="form-control" placeholder="Description"></textarea>
                                 </div>
                             </div>
-                    
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-sm-2 col-centered">
+                                    <div class="thumbnail">
+                                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                    </div><!-- /thumbnail -->
+                                </div><!-- /col-sm-1 -->
+
+                                <div class="col-sm-6 col-centered">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong id="str1"></strong> <span class="text-muted">commented 5 days ago</span>
+                                        </div>
+                                        <div class="panel-body" id="feedback-1">
+                                        </div><!-- /panel-body -->
+                                    </div><!-- /panel panel-default -->
+                                </div><!-- /col-sm-5 -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <div class="thumbnail">
+                                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                    </div><!-- /thumbnail -->
+                                </div><!-- /col-sm-1 -->
+
+                                <div class="col-sm-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong id="str2"></strong> <span class="text-muted">commented 2 days ago</span>
+                                        </div>
+                                        <div class="panel-body" id="feedback-2">
+                                            <i class="fa fa-thumbs-up"></i>
+                                        </div><!-- /panel-body -->
+                                    </div><!-- /panel panel-default -->
+                                </div><!-- /col-sm-5 -->
+
+                                <div class="col-sm-1">
+                                    <div class="thumbnail">
+                                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                    </div><!-- /thumbnail -->
+                                </div><!-- /col-sm-1 -->
+
+                                <div class="col-sm-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong id="str3"></strong> <span class="text-muted">commented 12 days ago</span>
+                                        </div>
+                                        <div class="panel-body" id="feedback-3">
+
+                                        </div><!-- /panel-body -->
+                                    </div><!-- /panel panel-default -->
+                                </div><!-- /col-sm-5 -->
+                            </div>
+
                             </fieldset>
                         </form>
                     
@@ -278,10 +389,69 @@
             ], {duration: 5000, fade: 500, centeredY: true });
 
         });
+
+        function upvote(feedback) {
+            console.log(feedback.id);
+            $.ajax({
+                url: 'feedbacks/rate',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    rating: '1',
+                    feedback_id: feedback.id,
+                    user_id: feedback.user_id,
+                },
+                success: function (resp) {
+
+                }
+            })
+        }
+
+        function downvote(feedback) {
+            console.log(feedback.id);
+            $.ajax({
+                url: 'feedbacks/rate',
+                method: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    rating: '-1',
+                    feedback_id: feedback.id,
+                    user_id: feedback.user_id,
+                },
+                success: function (resp) {
+
+                }
+            })
+        }
     </script>
     <script>
+
+      var userNames = [];
+      var positives = [];
+      var negatives = [];
       $(document).ready(function() {
+          $('.like, .dislike').on('click', function() {
+              event.preventDefault();
+              $('.active').removeClass('active');
+              $(this).addClass('active');
+          });
             $('.js-example-basic-multiple').select2();
+          @foreach($users as $user)
+              @if($user->id == null)
+                userNames['{{ $user->id }}'] = 'Anonymous';
+              @else
+                userNames['{{ $user->id }}'] = '{{ $user->name }}';
+              @endif
+          @endforeach
+
+          @foreach($feedbacks as $feedback)
+            positives['{{ $feedback->id }}'] = '{{ $feedback->positiveRatings->count() }}';
+            negatives['{{ $feedback->id }}'] = '{{ $feedback->negativeRatings->count() }}';
+          @endforeach
       });
       var map;
       var markers = [];
@@ -328,13 +498,14 @@
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
               label: '{{ $institution->events->count() }}',
-              rating: {!! json_encode($institution->computeRating()) !!}
+              rating: {!! json_encode($institution->computeRating()) !!},
+              feedbacks: {!! json_encode($institution->feedbacks) !!}
           });
 
             markers.push(marker);
 
             google.maps.event.addListener(marker, 'mouseover', function() {
-                    //var aux = Object.assign({}, marker);  
+                    //var aux = Object.assign({}, marker);
               
               let contentString = '<div class="row"><div class="col-xs-3"> <img src=' + '{{ $institution->photos->first()->path }}' + ' height="60" width="60"> </div>';
 
@@ -377,12 +548,45 @@
                 modalModel = this.object;
                 photos = this.photos;
                 rating = this.rating;
+                feedbacks = this.feedbacks;
+
+                console.log(modalModel.id);
+                console.log(feedbacks);
 
                 nrPhotos = 3;
                 for(let i = 1 ; i <= nrPhotos ; i++) {
                     if(photos.length >= i) {
                         $("#institution-photo-" + i).attr('src', photos[i - 1].path);
                     }
+                }
+                var a = 0;
+                if(feedbacks === undefined || feedbacks.length === undefined)
+                {
+                    $('#feedback-1').parent().parent().parent().remove();
+                    $('#feedback-2').parent().parent().parent().remove();
+                    $('#feedback-3').parent().parent().parent().remove();
+                }
+
+                let auxi = 0;
+
+                $(feedbacks).each(function(i) {
+                    auxi = i + 1;
+                    if(i < 3) {
+                        $('#feedback-' + (i + 1)).text(this.feedback);
+                        $aux = this;
+                        $('#feedback-' + (i + 1)).append(' <div class="rating1"> <div class="like grow" onclick="upvote($aux);">' +
+                            ' <span>' + positives[this.id] + '</span> <i class="fa fa-thumbs-up fa-3x like" aria-hidden="true"></i>' +
+                            '</div> <div class="dislike grow" onclick="downvote($aux)">' +
+                            ' <span>' + negatives[this.id] + '</span> <i class="fa fa-thumbs-down fa-3x like" aria-hidden="true"></i> </div> </div>');
+                        if(this.user_id !== null)
+                            $('#str' + (i + 1)).html(userNames[this.user_id]);
+                        else
+                            $('#str' + (i + 1)).html('Anonymous');
+                    }
+                });
+
+                for(let j = auxi + 1; j <= 3 ; j++) {
+                    $('#feedback-' + j).parent().parent().parent().remove();
                 }
 
                 $('#myModal').find('form :input').not('button').each(function (index, element) {

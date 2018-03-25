@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Feedback;
 use App\FeedbackRating;
+use Auth;
 
 class FeedbacksController extends Controller
 {
@@ -42,8 +43,8 @@ class FeedbacksController extends Controller
     public function rate(Request $request, Feedback $feedback)
     {
         FeedbackRating::create([
-            'user_id' => Auth::id(),
-            'feedback_id' => $feedback->id,
+            'user_id' =>$request->user_id,
+            'feedback_id' => $request->feedback_id,
             'rating' => $request->rating
         ]);
 

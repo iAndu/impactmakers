@@ -7,6 +7,8 @@ use DB;
 use App\Institution;
 use App\InstitutionType;
 use App\Photo;
+use App\User;
+use App\Feedback;
 
 class HomeController extends Controller
 {
@@ -27,9 +29,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $institutions = Institution::with('photos')->where('status', 1)->get();
+        $institutions = Institution::with('photos', 'feedbacks')->where('status', 1)->get();
         $institution_types = InstitutionType::all();
+        $users = User::all();
         $photos = Photo::all();
+        $feedbacks = Feedback::all();
 
         foreach ($institutions as $institution) {
             $institution->rating = $institution->computeRating();
@@ -39,6 +43,6 @@ class HomeController extends Controller
             $photos = $photos->random(9);
         }
 
-        return view('index', compact('institutions', 'institution_types', 'photos'));
+        return view('index', compact('institutions', 'institution_types', 'photos', 'users', 'feedbacks'));
     }
 }

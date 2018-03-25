@@ -24,6 +24,11 @@ Route::get('/feedbacks', [
     'as' => 'feedbacks.index'
 ]);
 
+Route::post('/feedbacks/rate', [
+    'uses' => 'FeedbacksController@rate',
+    'as' => 'feedbacks.rate'
+]);
+
 Route::get('/getInstitutions', [
     'uses' => 'InstitutionsController@getInstitutions',
     'as' => 'institutions.getInstitutions'
