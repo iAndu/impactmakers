@@ -585,7 +585,7 @@
 
     <section id="mapView" class="white">
         <div id="mapwrapper">
-            <label> Filter by institution type </label>
+            <p style="margin-bottom:10px"> <b> Filter by institution type </b> </p>
             <select class="js-example-basic-multiple" multiple="multiple" style="position:relative; z-index: 100; bottom: -200px" id="type" onchange="filterMarkers();">
                 <option value= "">Please select category</option>
                 @foreach($institution_types as $type)
