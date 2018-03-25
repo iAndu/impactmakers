@@ -52,7 +52,7 @@
         height: 100%;
       }
 
-      form input, form select {
+      form#create input, form#create select {
         width: 100%;
         padding: 10px 5px;
         margin-bottom: 15px;
@@ -61,7 +61,7 @@
         border: none;
       }
 
-      form textarea {
+      form#create textarea {
           width: 100%;
           min-height: 150px;
           padding: 10px 5px;
@@ -74,6 +74,14 @@
       .modal-body .container {
           max-width: 100%;
 
+      }
+
+      #myModal > div > div > div.modal-body > form > fieldset > div.form-group > label.control-label {
+          display: initial; !important
+      }
+
+      #myModal > div > div > div.modal-body > form > fieldset > div.form-group > div > input.form-control {
+          width: 100%;
       }
 
       .col-centered {
@@ -93,65 +101,44 @@
               <h4 class="modal-title">Details</h4>
 
                     <div class="gap"></div>
-                    <div class="container">
+                    <div class="container" style="width: 100%">
                         <div class="row">
-                            <div class="center gap fade-down section-heading">
-                                <h2 class="main-title">Pictures</h2>
-                                <div class="gap"></div>
-                            </div>
                             <div class='col-md-offset-2 col-md-8 fade-up'>
                                 <div class="carousel slide" data-ride="carousel" id="quote-carousel">
-                                    <!-- Bottom Carousel Indicators -->
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#quote-carousel" data-slide-to="0" class="active"></li>
-                                        <li data-target="#quote-carousel" data-slide-to="1"></li>
-                                        <li data-target="#quote-carousel" data-slide-to="2"></li>
-                                    </ol>
                                     <!-- Carousel Slides / Quotes -->
                                     <div class="carousel-inner">
-                                        <!-- Quote 1 -->
-                                        <div class="item active">
+                                        @foreach ($photos->chunk(3) as $collection)
+                                            <div class="item {{ $loop->first ? 'active' : '' }}">
                                                 <div class="row">
-                                                    <div class="col-sm-12 text-center">
-                                                        <img id="institution-photo-1" class="img-responsive" src="#" style="width: 100px;height:100px;">
-                                                    </div>
+                                                    @foreach ($collection as $photo)
+                                                        <div class="col-sm-4 text-center" style="padding: 2px;">
+                                                            <img src="{{ $photo->path }}" class="img-responsive" style="width: 100%;height:200px;">
+                                                        </div>
+                                                    @endforeach
                                                 </div>
-                                        </div>
-                                        <!-- Quote 2 -->
-                                        <div class="item">
-                                                <div class="row">
-                                                    <div class="col-sm-12 text-center">
-                                                        <img id="institution-photo-2" class="img-responsive" src="#" style="width: 100px;height:100px;">
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <!-- Quote 3 -->
-                                        <div class="item">
-                                                <div class="row">
-                                                    <div class="col-sm-12 text-center">
-                                                        <img id="institution-photo-3" class="img-responsive" src="#" style="width: 100px;height:100px;">
-                                                    </div>
-                                                </div>
-                                        </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="gap"></div>
                     </div>
 
             </div>
             <div class="modal-body">
-                <div class="container">
-                        <div class="form-group">
+                    <form class="form-horizontal" role="form">
+                            <fieldset>
+
+                              <!-- Text input-->
+                              <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Name</label>
                                 <div class="col-sm-4">
-                                  <input type="text" name="name" placeholder="Name" class="form-control">
+                                  <input type="text" disabled name="name" placeholder="Name" class="form-control">
                                 </div>
 
                                 <label class="col-sm-2 control-label" for="textinput">Type</label>
                                 <div class="col-sm-4">
-                                    <select name="type_id" class="form-control">
+                                    <select disabled name="type_id" class="form-control">
                                         @foreach ($institution_types as $institutionType)
                                             <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
                                         @endforeach
@@ -163,83 +150,84 @@
                               <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Address</label>
                                 <div class="col-sm-4">
-                                  <input type="text" name="address" placeholder="Address" class="form-control">
+                                  <input type="text" disabled name="address" placeholder="Address" class="form-control">
                                 </div>
 
                                 <label class="col-sm-2 control-label" for="textinput">Owner</label>
                                 <div class="col-sm-4">
-                                  <input type="text" name="owner_name" placeholder="Owner name" class="form-control">
+                                  <input type="text" disabled name="owner_name" placeholder="Owner name" class="form-control">
                                 </div>
                             </div>
                     
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Short desc.</label>
                                 <div class="col-sm-4">
-                                  <input type="text" name="short_description" placeholder="Short description" class="form-control">
+                                  <input type="text" disabled name="short_description" placeholder="Short description" class="form-control">
                                 </div>
 
                                 <label class="col-sm-2 control-label" for="textinput">Website</label>
                                 <div class="col-sm-4">
-                                  <input type="text" name="website" placeholder="Website" class="form-control">
+                                  <input type="text" disabled name="website" placeholder="Website" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Short desc.</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="short_description" placeholder="Short description" class="form-control">
+                                    <input type="text" disabled name="short_description" placeholder="Short description" class="form-control">
                                 </div>
 
                                 <label class="col-sm-2 control-label" for="textinput">Website</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="website" placeholder="Website" class="form-control">
+                                    <input type="text" disabled name="website" placeholder="Website" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Email</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="email" placeholder="Contact email" class="form-control">
+                                    <input type="text" disabled name="email" placeholder="Contact email" class="form-control">
                                 </div>
 
                                 <label class="col-sm-2 control-label" for="textinput">Phone</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="phone_number" placeholder="Phone number" class="form-control">
+                                    <input type="text" disabled name="phone_number" placeholder="Phone number" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Facebook</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="fb_page" placeholder="Facebook page" class="form-control">
+                                    <input type="text" disabled name="fb_page" placeholder="Facebook page" class="form-control">
                                 </div>
 
                                 <label class="col-sm-2 control-label" for="textinput">Twitter</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="twitter_page" placeholder="Twitter page" class="form-control">
+                                    <input type="text" disabled name="twitter_page" placeholder="Twitter page" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Instagram</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="ig_page" placeholder="Instagram page" class="form-control">
+                                    <input type="text" disabled name="ig_page" placeholder="Instagram page" class="form-control">
                                 </div>
 
                                 <label class="col-sm-2 control-label" for="textinput">Ratio</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="ratio" placeholder="Women ratio" class="form-control">
+                                    <input type="text" disabled name="ratio" placeholder="Women ratio" class="form-control">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea name="description" class="form-control" placeholder="Description"></textarea>
+                                    <textarea disabled name="description" class="form-control" placeholder="Description"></textarea>
                                 </div>
                             </div>
-                    <hr>
-                </div>
+                    
+                            </fieldset>
+                          </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -305,7 +293,7 @@
 
         //Create markers
         @foreach($institutions as $institution)
-            let marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
             icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
@@ -314,7 +302,6 @@
               photos: {!! json_encode($photos) !!},
               rating: {!! json_encode($institution->computeRating()) !!}
           });
-          console.log(marker);
 
             markers.push(marker);
 
@@ -363,8 +350,6 @@
                 photos = marker.photos;
                 rating = marker.rating;
 
-                console.log(modalModel);
-
                 nrPhotos = 3;
                 for(let i = 1 ; i <= nrPhotos ; i++) {
                     if(photos.length >= i) {
@@ -372,19 +357,10 @@
                     }
                 }
 
-                $("#institution-name").attr('value', modalModel.name);
-                $("#institution-type").attr('value', modalModel.type.name);
-                $("#institution-address").attr('value', modalModel.address);
-                $("#institution-website").attr('value', modalModel.website);
-                $("#institution-email").attr('value', modalModel.email);
-                $("#institution-phone").attr('value', modalModel.phone_number);
-                $("#institution-description").attr('value', modalModel.description);
-                $("#institution-owner-name").attr('value', modalModel.owner_name);
-                $("#institution-short-description").attr('value', modalModel.short_description);
-                $("#institution-ratio").attr('value', modalModel.ratio);
-                $("#institution-fb-page").attr('value', modalModel.fb_page);
-                $("#institution-twitter-page").attr('value', modalModel.twitter_page);
-                $("#institution-instagram-page").attr('value', modalModel.ig_page);
+                $('#myModal').find('form :input').not('button').each(function (index, element) {
+                    let $element = $(element);
+                    $element.val(modalModel[$element.attr('name')]);
+                });
 
 
 
