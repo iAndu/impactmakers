@@ -104,6 +104,12 @@
       #footer {
           margin-top: 0;
       }
+
+      @media screen and (max-width: 800px) {
+        .modal-dialog {
+          width: 90%;
+        }
+      }
     </style>
 
     <!-- Modal -->
