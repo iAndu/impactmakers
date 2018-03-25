@@ -1115,7 +1115,6 @@
         });
 
         function check_create_name() {
-            var pattern = /^[a-zA-Z]*$/;
             var fname = $("#create-name").val();
 
             if(fname === '') {
@@ -1124,7 +1123,7 @@
                 $("#create-name").css("border-bottom","2px solid #F90A0A");
                 error_create_name = true;
             }
-            else if (pattern.test(fname) && fname !== '') {
+            else if (fname !== '') {
                 $("#create-name_error_message").hide();
                 $("#create-name").css("border-bottom","2px solid #34F458");
             } else {
@@ -1168,19 +1167,15 @@
         }
 
         $("#store-institution").submit(function() {
-            error_fname = false;
-            error_sname = false;
+            error_create_name = false;
+            error_address = false;
             error_email = false;
-            error_password = false;
-            error_retype_password = false;
 
-            check_fname();
-            check_sname();
+            check_create_name();
+            check_address();
             check_email();
-            check_password();
-            check_retype_password();
 
-            if (error_fname === false && error_sname === false && error_email === false && error_password === false && error_retype_password === false) {
+            if (error_create_name === false && error_address === false && error_email === false) {
                 alert("Registration Successfull");
                 return true;
             } else {
