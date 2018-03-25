@@ -28,13 +28,13 @@ class HomeController extends Controller
     public function index()
     {
         $institutions = Institution::all();
-        $institutionTypes = InstitutionType::all();
+        $institution_types = InstitutionType::all();
         $photos = Photo::all();
         
         if ($photos->count() > 9) {
             $photos = $photos->random(9);
         }
 
-        return view('index', compact('institutions', 'institutionTypes', 'photos'));
+        return view('index', compact('institutions', 'institution_types', 'photos'));
     }
 }
