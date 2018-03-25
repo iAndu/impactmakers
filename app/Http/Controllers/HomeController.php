@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $institutions = Institution::with('photos', 'feedbacks')->where('status', 1)->get();
+        $institutions = Institution::with('photos', 'feedbacks', 'nextEvents')->where('status', 1)->get();
         $institution_types = InstitutionType::all();
         $users = User::all();
         $photos = Photo::all();

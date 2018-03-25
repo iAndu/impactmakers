@@ -43,7 +43,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>I</b>M</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>IMPACT</b>MAKERS</span>
+      <span class="logo-lg"><b>E-</b>CIVIS</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -71,12 +71,12 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li>
-          <a href="/institutions">
+          <a href="/admin/institutions">
             <i class="fa fa-building"></i> <span>Institutions</span>
           </a>
         </li>
         <li>
-          <a href="/institution-types">
+          <a href="/admin/institution-types">
             <i class="fa fa-graduation-cap"></i> <span>Institution Types</span>
           </a>
         </li>

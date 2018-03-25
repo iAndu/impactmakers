@@ -46,7 +46,7 @@ Route::post('/institutions', [
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/institutions', [
+    Route::get('/admin/institutions', [
         'uses' => 'InstitutionsController@index',
         'as' => 'institutions.index'
     ]);
@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'institutions.delete'
     ]);
 
-    Route::get('/institution-types', 'InstitutionTypeController@index')->name('institution-types-index');
+    Route::get('/admin/institution-types', 'InstitutionTypeController@index')->name('institution-types-index');
     Route::get('/institution-types/create', 'InstitutionTypeController@create')
     ->name('institution-types-create');
     Route::post('/institution-types/store', 'InstitutionTypeController@store')

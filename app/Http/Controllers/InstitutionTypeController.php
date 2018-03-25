@@ -55,7 +55,7 @@ class InstitutionTypeController extends Controller
             $filename = md5(uniqid('', true)).'.'.$icon->extension();
 
             Storage::disk($disk)->put(config('paths.institution_type_icons') . $filename, $file_content);
-
+            
             $icon = [
                 'name'  => $request->marker_name,
                 'path'  => '/storage/' . config('paths.institution_type_icons') . $filename
@@ -70,7 +70,7 @@ class InstitutionTypeController extends Controller
 
             InstitutionType::create($institutionType);
 
-            return redirect('/institution-types');
+            return redirect('/admin/institution-types');
         }
 
         $institutionType = [
@@ -80,7 +80,7 @@ class InstitutionTypeController extends Controller
 
         InstitutionType::create($institutionType);
 
-        return redirect('/institution-types');
+        return redirect('/admin/institution-types');
         
     }
 
@@ -88,6 +88,6 @@ class InstitutionTypeController extends Controller
         $institutionType = InstitutionType::find($id);
         $institutionType->delete();
 
-        return redirect('/institution-types');
+        return redirect('/admin/institution-types');
     }
 }

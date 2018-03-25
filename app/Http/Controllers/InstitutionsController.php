@@ -122,8 +122,11 @@ class InstitutionsController extends Controller
                     'rating' => $request->rating
                 ]);
 
+                $institution->rating = $institution->computeRating();
+
                 return response()->json([
-                    'status' => 'success'
+                    'status' => 'success',
+                    'institution' => $institution->load('photos', 'nextEvents')
                 ]);
             }
         }
@@ -134,8 +137,11 @@ class InstitutionsController extends Controller
             'rating' => $request->rating
         ]);
 
+        $institution->rating = $institution->computeRating();        
+
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'institution' => $institution->load('photos')
         ]);
     }
 }

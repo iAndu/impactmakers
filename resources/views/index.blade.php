@@ -41,6 +41,7 @@
             max-height: 150px;
         }
       #mapwrapper {
+          position: relative;
           height: 700px;
       }
 
@@ -71,14 +72,17 @@
           border: none;
       }
 
-      #myModal > div > div > div.modal-body > form > fieldset > div.form-group > label.control-label {
+      div > div > div.modal-body > form > fieldset > div.form-group > label.control-label {
           display: initial; !important
       }
 
-      #myModal > div > div > div.modal-body > form > fieldset > div.form-group > div > input.form-control {
+      div > div > div.modal-body > form > fieldset > div.form-group > div > input.form-control {
           width: 100%;
       }
 
+      .modal-dialog {
+        width: 60%;
+      }
 
       .modal-body .container {
           max-width: 100%;
@@ -92,6 +96,18 @@
 
       .fix_me {
           left: 15px;
+      }
+
+      span.select2 {
+          position: absolute;
+          width: 200px;
+          z-index: 1;
+          top: 10px;
+          left: 120px;
+      }
+
+      li.select2-selection__choice {
+          display: none;
       }
 
       #footer-wrapper {
@@ -155,6 +171,16 @@
 
       .active {
           color: #2EBDD1;
+
+      @media screen and (max-width: 800px) {
+        .modal-dialog {
+          width: 90%;
+        }
+      }
+
+      .is-warning {
+        background-color: #ffc107;
+
       }
     </style>
 
@@ -195,7 +221,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row text-center">
-                        <div class="col-md-6 rating">
+                        <div class="col-md-offset-3 col-md-6 rating">
                             <i class="fa fa-star-o fa-2x"></i>
                             <i class="fa fa-star-o fa-2x"></i>
                             <i class="fa fa-star-o fa-2x"></i>
@@ -253,18 +279,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="textinput">Short desc.</label>
-                                <div class="col-sm-4">
-                                    <input type="text" disabled name="short_description" placeholder="Short description" class="form-control">
-                                </div>
-
-                                <label class="col-sm-2 control-label" for="textinput">Website</label>
-                                <div class="col-sm-4">
-                                    <input type="text" disabled name="website" placeholder="Website" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Email</label>
                                 <div class="col-sm-4">
                                     <input type="text" disabled name="email" placeholder="Contact email" class="form-control">
@@ -294,7 +308,8 @@
                                     <input type="text" disabled name="ig_page" placeholder="Instagram page" class="form-control">
                                 </div>
 
-                                <label class="col-sm-2 control-label" for="textinput">Ratio</label>
+                                <label class="col-sm-2 control-label" for="textinput">Ratio 
+                                </label>
                                 <div class="col-sm-4">
                                     <input type="text" disabled name="ratio" placeholder="Women ratio" class="form-control">
                                 </div>
@@ -363,6 +378,92 @@
                                 </div><!-- /col-sm-5 -->
                             </div>
 
+                            </fieldset>
+                        </form>
+                    
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="show-events">Show events</button>                
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="eventsModal" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Upcoming event</h4>
+              
+              <div class="gap"></div>
+              <div class="container" style="width: 100%">
+                        <div class="row">
+                            <div class='col-md-offset-2 col-md-8 fade-up'>
+                                <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+                                    <!-- Carousel Slides / Quotes -->
+                                    <div class="carousel-inner">
+                                        @foreach ($photos->chunk(3) as $collection)
+                                        <div class="item {{ $loop->first ? 'active' : '' }}">
+                                                <div class="row">
+                                                    @foreach ($collection as $photo)
+                                                    <div class="col-sm-4 text-center" style="padding: 2px;">
+                                                        <img src="{{ $photo->path }}" class="img-responsive" style="width: 100%;height:200px;">
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        
+                        <fieldset>
+                            
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Name</label>
+                                <div class="col-sm-4">
+                                  <input type="text" disabled name="name" placeholder="Name" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Address</label>
+                                <div class="col-sm-4">
+                                  <input type="text" disabled name="address" placeholder="Address" class="form-control">
+                                </div>
+                              </div>
+                    
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Event name</label>
+                                <div class="col-sm-4">
+                                  <input type="text" disabled name="event_name" placeholder="Event name" class="form-control">
+                                </div>
+
+                                <label class="col-sm-2 control-label" for="textinput">Data</label>
+                                <div class="col-sm-4">
+                                  <input type="data" disabled name="event_data" placeholder="Data" class="form-control">
+                                </div>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="textinput">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea disabled name="event_description" class="form-control" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                    
                             </fieldset>
                         </form>
                     
@@ -440,6 +541,7 @@
               $(this).addClass('active');
           });
             $('.js-example-basic-multiple').select2();
+
           @foreach($users as $user)
               @if($user->id == null)
                 userNames['{{ $user->id }}'] = 'Anonymous';
@@ -452,6 +554,13 @@
             positives['{{ $feedback->id }}'] = '{{ $feedback->positiveRatings->count() }}';
             negatives['{{ $feedback->id }}'] = '{{ $feedback->negativeRatings->count() }}';
           @endforeach
+
+            $('#show-events').on('click', function () {
+                setTimeout(function () {
+                    $('#eventsModal').modal('show');
+                }, 1000);
+            });
+
       });
       var map;
       var markers = [];
@@ -493,7 +602,8 @@
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
-            icon: {url: "{{ ($institution->ratio >= 0.45 && $institution->ratio <= 0.55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
+            // icon: {url: "{{ ($institution->ratio >= 45 && $institution->ratio <= 55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
+            icon: {url: " {{$institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
@@ -502,7 +612,17 @@
               feedbacks: {!! json_encode($institution->feedbacks) !!}
           });
 
+            
             markers.push(marker);
+            @if($institution->ratio >= 45 && $institution->ratio<= 55) 
+            var marker2 = new google.maps.Marker({
+              position: new google.maps.LatLng({{ $institution->lat}} , {{ $institution->lng }}),
+              icon: {url: "/icons/badge.png"},
+              map: map,
+            });
+
+              // markers.push(marker2);
+            @endif
 
             google.maps.event.addListener(marker, 'mouseover', function() {
                     //var aux = Object.assign({}, marker);
@@ -594,6 +714,29 @@
                     $element.val(modalModel[$element.attr('name')]);
                 });
 
+                let $form = $('#eventsModal').find('form');
+
+                $('#show-events').hide();
+                if (modalModel.next_events.length) {
+                    $('#show-events').show();
+                    let event = modalModel.next_events[0];
+                    $form.find('input[name="name"]').val(modalModel.name);
+                    $form.find('input[name="address"]').val(modalModel.address);
+                    $form.find('input[name="event_name"]').val(event.name);
+                    $form.find('input[name="event_data"]').val(event.data);
+                    $form.find('textarea[name="event_description"]').val(event.description);
+                }
+
+                let $label = $('input[name="ratio"]').closest('div.form-group').find('label').last();
+
+                $label.html('Ratio');
+
+                if(modalModel.ratio>=45 && modalModel.ratio<=55) {
+                  console.log(modalModel.ratio);
+                  
+                  $label.html($label.html() + ' <span class="badge is-warning"> <i class="fa fa-thumbs-up"> </i> balanced</span> ');
+                }
+
                 let $rating = $('#myModal').find('div.rating');
                 $rating.data('id', modalModel.id);
                 $rating.html('');
@@ -623,6 +766,7 @@
                             rating: $this.data('value')
                         },
                         success: function (resp) {
+                            marker.object = resp.institution;
                             $this.closest('div.rating').find('i.fa').each(function (index, element) {
                                 if (index < $this.data('value')) {
                                     $(element).removeClass('fa-star-o').addClass('fa-star');
@@ -679,7 +823,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="{{ route('index') }}"><h1><span class="pe-7s-gleam bounce-in"></span> IMPACT Makers</h1></a>
+            <a class="navbar-brand" href="{{ route('index') }}"><h1><span class="pe-7s-gleam bounce-in"></span> E-CIVIS</h1></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -691,8 +835,9 @@
                 {{--  <li><a href="#contact-us" class="smoothScroll">Contact</a></li>  --}}
                 @if (!Auth::user())
                     <li><a href="{{ route('login') }}">Login</a></li>
+                    <li><a href="{{ route('register') }}">Register</a></li>
                 @else
-                    <li><a id="admin_panel" href="/institutions">Admin panel</a></li>
+                    <li><a id="admin_panel" href="{{ route('institutions.index') }}">Admin panel</a></li>
                     <li><a id="logout" href="#">Logout</a></li>
                 @endif
             </ul>
@@ -873,7 +1018,6 @@
 
     <section id="mapView" class="white">
         <div id="mapwrapper">
-            <p style="margin-bottom:10px"> <b> Filter by institution type </b> </p>
             <select class="js-example-basic-multiple" multiple="multiple" style="position:relative; z-index: 100; bottom: -200px" id="type" onchange="filterMarkers();">
                 @foreach($institution_types as $type)
                     <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -920,6 +1064,13 @@
                         <input id="create-owned" type="text" name="owner_name" placeholder="Optional. Owner name" />
                         <input id="create-short-desc" type="text" name="short_description" placeholder="Optional. Short description" />
                         <textarea name="description" placeholder="Optional. Description"></textarea>
+                        {{--  <label for="photos">Upload photos</label>  --}}
+                      <input
+                      type="file"
+                      id="photos"
+                      name="photos[]"
+                      value="{{ old('photos', "") }}" class="form-control"
+                      multiple>
                     </div><!-- col -->
 
                     <div class="col-md-6 fade-up">
@@ -934,11 +1085,12 @@
                         <input id="create-ig" type="text" name="ig_page" placeholder="Optional. Instagram page" />
                         <input id="create-males" type="text" name="males" placeholder="Optional. Number of males" />
                         <input id="create-females" type="text" name="females" placeholder="Optional. Number of females" />
+                        <button style="width: 100%" class="btn btn-outlined btn-primary" type="submit"> Submit</button>
                     </div><!-- col -->
                 </div><!-- row -->
 
-                <div class="row">
-                    <div class="form-group col-md-6">
+                {{--  <div class="row">  --}}
+                    {{--  <div class="form-group col-md-6">
                       <label for="photos">Upload photos</label>
                       <input
                       type="file"
@@ -946,14 +1098,12 @@
                       name="photos[]"
                       value="{{ old('photos', "") }}" class="form-control"
                       multiple>
-                    </div>
-                </div>
+                    </div>  --}}
+                {{--  </div>  --}}
 
-                <div class="row">
-                    <div class="col-md-12 col-lg-offset-3 col-lg-6">
-                        <button class="btn btn-outlined btn-primary" type="submit"> Submit</button>
-                    </div>
-                </div>
+                {{--  <div class="row">
+                    
+                </div>  --}}
             </form>
             <div class="gap"></div>
         </div>
