@@ -610,8 +610,9 @@
 
                 <div class="row">
                     <div class="col-md-6 fade-up">
-                        <input type="text" name="name" placeholder="Name" />
-                        <select name="type_id">
+                        <input id="create-name" type="text" name="name" placeholder="Name" />
+                        <span class="error_form" id="create-name_error_message"></span>
+                        <select id="create-type" name="type_id">
                             @foreach ($institution_types as $institutionType)
                                 <option value="{{ $institutionType->id }}">{{ $institutionType->name }}</option>
                             @endforeach
@@ -619,6 +620,7 @@
                         <!-- <input type="text" name="address" placeholder="Address" /> -->
                         <input id="address" name="address" type="text"
                                 placeholder="Address">
+                        <span class="error_form" id="address_error_message"></span>
                         <input type="hidden" name="lat" id="lat">
                         <input type="hidden" name="lng" id="lng">
                         <!-- <div id="infowindow-content">
@@ -627,22 +629,23 @@
                             <span id="place-address"></span>
                         </div> -->
 
-                        <input type="text" name="owner_name" placeholder="Optional. Owner name" />
-                        <input type="text" name="short_description" placeholder="Optional. Short description" />
+                        <input id="create-owned" type="text" name="owner_name" placeholder="Optional. Owner name" />
+                        <input id="create-short-desc" type="text" name="short_description" placeholder="Optional. Short description" />
                         <textarea name="description" placeholder="Optional. Description"></textarea>
                     </div><!-- col -->
 
                     <div class="col-md-6 fade-up">
                         <input type="hidden" name="lat" />
                         <input type="hidden" name="lng" />
-                        <input type="text" name="website" placeholder="Optional. Website" />                        
-                        <input type="text" name="email" placeholder="Optional. Contact email" />
-                        <input type="text" name="phone_number" placeholder="Optional. Phone number" />
-                        <input type="text" name="fb_page" placeholder="Optional. Facebook page" />
-                        <input type="text" name="twitter_page" placeholder="Optional. Twitter page" />
-                        <input type="text" name="ig_page" placeholder="Optional. Instagram page" />
-                        <input type="text" name="males" placeholder="Optional. Number of males" />
-                        <input type="text" name="females" placeholder="Optional. Number of females" />
+                        <input id="create-website" type="text" name="website" placeholder="Optional. Website" />
+                        <input id="create-email" type="text" name="email" placeholder="Optional. Contact email" />
+                        <span class="error_form" id="email_error_message"></span>
+                        <input id="create-phone" type="text" name="phone_number" placeholder="Optional. Phone number" />
+                        <input id="create-fb" type="text" name="fb_page" placeholder="Optional. Facebook page" />
+                        <input id="create-tw" type="text" name="twitter_page" placeholder="Optional. Twitter page" />
+                        <input id="create-ig" type="text" name="ig_page" placeholder="Optional. Instagram page" />
+                        <input id="create-males" type="text" name="males" placeholder="Optional. Number of males" />
+                        <input id="create-females" type="text" name="females" placeholder="Optional. Number of females" />
                     </div><!-- col -->
                 </div><!-- row -->
 
@@ -1081,99 +1084,73 @@
 <script type="text/javascript">
     $(function() {
 
-        $("#fname_error_message").hide();
-        $("#sname_error_message").hide();
+        $("#create-name_error_message").hide();
+        $("#address_error_message").hide();
         $("#email_error_message").hide();
-        $("#password_error_message").hide();
-        $("#retype_password_error_message").hide();
 
-        var error_fname = false;
-        var error_sname = false;
+        var error_create_name = false;
+        var error_address = false;
         var error_email = false;
-        var error_password = false;
-        var error_retype_password = false;
 
-        $("#form_fname").focusout(function(){
-            check_fname();
+        $("#create-name").focusout(function(){
+            check_create_name();
         });
-        $("#form_sname").focusout(function() {
-            check_sname();
+        $("#address").focusout(function() {
+            check_address();
         });
-        $("#form_email").focusout(function() {
+        $("#create-email").focusout(function() {
             check_email();
         });
-        $("#form_password").focusout(function() {
-            check_password();
-        });
-        $("#form_retype_password").focusout(function() {
-            check_retype_password();
-        });
 
-        function check_fname() {
+        function check_create_name() {
             var pattern = /^[a-zA-Z]*$/;
-            var fname = $("#form_fname").val();
-            if (pattern.test(fname) && fname !== '') {
-                $("#fname_error_message").hide();
-                $("#form_fname").css("border-bottom","2px solid #34F458");
+            var fname = $("#create-name").val();
+
+            if(fname === '') {
+                $("#create-name_error_message").html("Cannot be blank");
+                $("#create-name_error_message").show();
+                $("#create-name").css("border-bottom","2px solid #F90A0A");
+                error_create_name = true;
+            }
+            else if (pattern.test(fname) && fname !== '') {
+                $("#create-name_error_message").hide();
+                $("#create-name").css("border-bottom","2px solid #34F458");
             } else {
-                $("#fname_error_message").html("Should contain only Characters");
-                $("#fname_error_message").show();
-                $("#form_fname").css("border-bottom","2px solid #F90A0A");
+                $("#create-name_error_message").html("Should contain only Characters");
+                $("#create-name_error_message").show();
+                $("#create-name").css("border-bottom","2px solid #F90A0A");
+                error_create_name = true;
+            }
+        }
+
+        function check_address() {
+            var sname = $("#address").val()
+            if (sname !== '') {
+                $("#address_error_message").hide();
+                $("#address").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#address_error_message").html("Cannot be blank");
+                $("#address_error_message").show();
+                $("#address").css("border-bottom","2px solid #F90A0A");
                 error_fname = true;
-            }
-        }
-
-        function check_sname() {
-            var pattern = /^[a-zA-Z]*$/;
-            var sname = $("#form_sname").val()
-            if (pattern.test(sname) && sname !== '') {
-                $("#sname_error_message").hide();
-                $("#form_sname").css("border-bottom","2px solid #34F458");
-            } else {
-                $("#sname_error_message").html("Should contain only Characters");
-                $("#sname_error_message").show();
-                $("#form_sname").css("border-bottom","2px solid #F90A0A");
-                error_fname = true;
-            }
-        }
-
-        function check_password() {
-            var password_length = $("#form_password").val().length;
-            if (password_length < 8) {
-                $("#password_error_message").html("Atleast 8 Characters");
-                $("#password_error_message").show();
-                $("#form_password").css("border-bottom","2px solid #F90A0A");
-                error_password = true;
-            } else {
-                $("#password_error_message").hide();
-                $("#form_password").css("border-bottom","2px solid #34F458");
-            }
-        }
-
-        function check_retype_password() {
-            var password = $("#form_password").val();
-            var retype_password = $("#form_retype_password").val();
-            if (password !== retype_password) {
-                $("#retype_password_error_message").html("Passwords Did not Matched");
-                $("#retype_password_error_message").show();
-                $("#form_retype_password").css("border-bottom","2px solid #F90A0A");
-                error_retype_password = true;
-            } else {
-                $("#retype_password_error_message").hide();
-                $("#form_retype_password").css("border-bottom","2px solid #34F458");
             }
         }
 
         function check_email() {
             var pattern = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-            var email = $("#form_email").val();
-            if (pattern.test(email) && email !== '') {
+            var email = $("#create-email").val();
+
+            if(email === '') {
                 $("#email_error_message").hide();
-                $("#form_email").css("border-bottom","2px solid #34F458");
+                $("#create-email").css("border-bottom","2px solid #34F458");
+            }
+            else if (pattern.test(email) && email !== '') {
+                $("#email_error_message").hide();
+                $("#create-email").css("border-bottom","2px solid #34F458");
             } else {
                 $("#email_error_message").html("Invalid Email");
                 $("#email_error_message").show();
-                $("#form_email").css("border-bottom","2px solid #F90A0A");
+                $("#email_error_message").css("border-bottom","2px solid #F90A0A");
                 error_email = true;
             }
         }
