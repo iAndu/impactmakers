@@ -62,15 +62,24 @@
       }
 
       form textarea {
-        width: 100%;
-        min-height: 150px;
-        padding: 10px 5px;
-        margin-bottom: 15px;
-        background-color: rgba(0, 0, 0, 0.1);
-        color: #202020;
-        border: none;
+          width: 100%;
+          min-height: 150px;
+          padding: 10px 5px;
+          margin-bottom: 15px;
+          background-color: rgba(0, 0, 0, 0.1);
+          color: #202020;
+          border: none;
       }
 
+      .modal-body .container {
+          max-width: 100%;
+
+      }
+
+      .col-centered {
+          float: none;
+          margin: 0 auto;
+      }
     </style>
 
     <!-- Modal -->
@@ -81,10 +90,112 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Modal Header</h4>
+              <h4 class="modal-title">Details</h4>
+
+                    <div class="gap"></div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="center gap fade-down section-heading">
+                                <h2 class="main-title">Pictures</h2>
+                                <div class="gap"></div>
+                            </div>
+                            <div class='col-md-offset-2 col-md-8 fade-up'>
+                                <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+                                    <!-- Bottom Carousel Indicators -->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#quote-carousel" data-slide-to="0" class="active"></li>
+                                        <li data-target="#quote-carousel" data-slide-to="1"></li>
+                                        <li data-target="#quote-carousel" data-slide-to="2"></li>
+                                    </ol>
+                                    <!-- Carousel Slides / Quotes -->
+                                    <div class="carousel-inner">
+                                        <!-- Quote 1 -->
+                                        <div class="item active">
+                                                <div class="row">
+                                                    <div class="col-sm-12 text-center">
+                                                        <img id="institution-photo-1" class="img-responsive" src="#" style="width: 100px;height:100px;">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <!-- Quote 2 -->
+                                        <div class="item">
+                                                <div class="row">
+                                                    <div class="col-sm-12 text-center">
+                                                        <img id="institution-photo-2" class="img-responsive" src="#" style="width: 100px;height:100px;">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <!-- Quote 3 -->
+                                        <div class="item">
+                                                <div class="row">
+                                                    <div class="col-sm-12 text-center">
+                                                        <img id="institution-photo-3" class="img-responsive" src="#" style="width: 100px;height:100px;">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gap"></div>
+                    </div>
+
             </div>
             <div class="modal-body">
-              <p>Some text in the modal.</p>
+                <div class="container">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2" for="institution-name">Name</label>
+                            <div class="col-sm-10"><input id="institution-name" type="text" disabled name="name" placeholder="Name" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="institution-type">Type</label>
+                            <div class="col-sm-10"><input id="institution-type" type="text" disabled name="type_id" placeholder="Name" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="institution-address">Address</label>
+                            <div class="col-sm-10"><input id="institution-address" type="text" disabled name="address" placeholder="Name" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="institution-website">Website</label>
+                            <div class="col-sm-10"><input id="institution-website" type="text" disabled name="name" placeholder="Name" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="institution-email">Email</label>
+                            <div class="col-sm-10"><input id="institution-email" type="text" disabled name="name" placeholder="Name" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" for="institution-phone">Phone number</label>
+                            <div class="col-sm-10"><input id="institution-phone" type="text" disabled name="name" placeholder="Name" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Ratio</label>
+                            <div class="col-sm-10"><input id="institution-ratio" type="text" disabled name="ratio" placeholder="Optional. Ratio" /></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12" for="institution-description">Description</label>
+                            <div class="col-sm-6"><textarea id="institution-description" disabled class="form-control"></textarea></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Owner name</label>
+                            <div class="col-sm-4"><input id="institution-owner-name" type="text" disabled name="owner_name" placeholder="Optional. Owner name" /></div>
+                            <label class="col-sm-2">Short description</label>
+                            <div class="col-sm-4"><input id="institution-short-description" type="text" disabled name="short_description" placeholder="Optional. Short description" /></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3"><input id="institution-fb-page" type="text" disabled name="fb_page" placeholder="Optional. Facebook page" /></div>
+                            <label class="col-sm-1"><i class="fa fa-facebook"></i></label>
+                            <div class="col-sm-3"><input id="institution-twitter-page" type="text" disabled name="fb_page" placeholder="Optional. Facebook page" /></div>
+                            <label class="col-sm-1"><i class="fa fa-twitter"></i></label>
+                            <div class="col-sm-3"><input id="institution-instagram-page" type="text" disabled name="twitter_page" placeholder="Optional. Twitter page" /></div>
+                            <label class="col-sm-1"><i class="fa fa-instagram"></i></label>
+                        </div>
+                        <div class="form-group">
+
+                        </div>
+                    </form>
+                    <hr>
+                </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -93,6 +204,10 @@
           
         </div>
       </div>
+
+    <script type="text/javascript">
+        modalModel = {};
+    </script>
 
     <script type="text/javascript">
         jQuery(document).ready(function($){
@@ -150,7 +265,10 @@
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
             icon: {url: '{{ $institution->type->icon->path }}', scaledSize: new google.maps.Size(45, 45)},
-            map: map
+            map: map,
+              object: {!! json_encode($institution) !!},
+              photos: {!! json_encode($photos) !!},
+              rating: {!! json_encode($institution->computeRating()) !!}
           });
 
             markers.push(marker);
@@ -163,7 +281,7 @@
               contentString += '<div class="col-xs-9"> <b>' + '{{ $institution->name }}' + '</b>';
 
               short_des = '{{ $institution->short_description }}';
-              
+
               short_des += new Array(30 - short_des.length).join(' ');
               contentString += '<p>' + short_des;
               /*if('{{ $institution->email }}' != '')
@@ -196,6 +314,35 @@
             });
 
             google.maps.event.addListener(marker, 'click', function() {
+                modalModel = marker.object;
+                photos = marker.photos;
+                rating = marker.rating;
+
+                console.log(rating);
+
+                nrPhotos = 3;
+                for(let i = 1 ; i <= nrPhotos ; i++) {
+                    if(photos.length >= i) {
+                        $("#institution-photo-" + i).attr('src', photos[i - 1].path);
+                    }
+                }
+
+                $("#institution-name").attr('value', modalModel.name);
+                $("#institution-type").attr('value', modalModel.type.name);
+                $("#institution-address").attr('value', modalModel.address);
+                $("#institution-website").attr('value', modalModel.website);
+                $("#institution-email").attr('value', modalModel.email);
+                $("#institution-phone").attr('value', modalModel.phone_number);
+                $("#institution-description").attr('value', modalModel.description);
+                $("#institution-owner-name").attr('value', modalModel.owner_name);
+                $("#institution-short-description").attr('value', modalModel.short_description);
+                $("#institution-ratio").attr('value', modalModel.ratio);
+                $("#institution-fb-page").attr('value', modalModel.fb_page);
+                $("#institution-twitter-page").attr('value', modalModel.twitter_page);
+                $("#institution-instagram-page").attr('value', modalModel.ig_page);
+
+
+
                 $("#myModal").modal();
             });
 
@@ -928,7 +1075,6 @@
     //         data: formData
     //     });
     // })
-
 </script>
 
 

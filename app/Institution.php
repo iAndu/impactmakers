@@ -34,4 +34,21 @@ class Institution extends Model
     {
         return $this->hasMany(Photo::class);
     }
+
+    public function computeRating()
+    {
+        $ratings = $this->ratings();
+        $sum = 0;
+        $count = 0;
+        foreach ($ratings as $key => $value)
+        {
+            $sum = $sum + $value;
+            $count++;
+        }
+
+        if($count)
+            return $ratings / $count;
+        else
+            return 0;
+    }
 }
