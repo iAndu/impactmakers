@@ -207,18 +207,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="textinput">Short desc.</label>
-                                <div class="col-sm-4">
-                                    <input type="text" disabled name="short_description" placeholder="Short description" class="form-control">
-                                </div>
-
-                                <label class="col-sm-2 control-label" for="textinput">Website</label>
-                                <div class="col-sm-4">
-                                    <input type="text" disabled name="website" placeholder="Website" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <label class="col-sm-2 control-label" for="textinput">Email</label>
                                 <div class="col-sm-4">
                                     <input type="text" disabled name="email" placeholder="Contact email" class="form-control">
@@ -332,7 +320,7 @@
             var marker = new google.maps.Marker({
             position: new google.maps.LatLng({{ $institution->lat }} , {{ $institution->lng }}),
             category: '{{ $institution->type->toJson() }}',
-            icon: {url: "{{ ($institution->ratio >= 0.45 && $institution->ratio <= 0.55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
+            icon: {url: "{{ ($institution->ratio >= 45 && $institution->ratio <= 55) ? substr($institution->type->icon->path, 0, -4) . '-badge.' . substr($institution->type->icon->path, -3) : $institution->type->icon->path }}", scaledSize: new google.maps.Size(45, 45)},
             map: map,
               object: {!! json_encode($institution) !!},
               photos: {!! json_encode($photos) !!},
